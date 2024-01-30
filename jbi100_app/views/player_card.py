@@ -1,23 +1,11 @@
-import dash
-import dash_bootstrap_components as dbc
-import geopandas as gpd
-import matplotlib.pyplot as plt
-import pandas as pd
-import plotly.express as px
-import plotly.graph_objs as go
-from dash import dash_table, dcc, html
-from dash.dependencies import Input, Output
-
-import jbi100_app.config as config
-
+from dash import html
 
 def build_player_card():
     player_card = html.Div(
-        className="flex flex-wrap -mx-3",
+        className="flex flex-wrap -mx-3 justify-center items-center",
         children=[
             # Player Card
             html.Div(
-                # className="w-full max-w-full px-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4",
                 className="w-full max-w-full px-3 mb-6 sm:flex-none xl:mb-0",
                 children=[
                     html.Div(
@@ -26,42 +14,44 @@ def build_player_card():
                             html.Div(
                                 className="flex-auto p-4",
                                 children=[
+                                    # Player Name
+                                    html.P(
+                                        "Player Name",
+                                        id="player-name",
+                                        className="mb-4 font-sans text-3xl font-semibold leading-none uppercase",
+                                        style={"font-size": "32px"},
+                                    ),
+                                    # Player Details
                                     html.Div(
-                                        className="flex flex-row -mx-3",
+                                        className="flex flex-row justify-between",
                                         children=[
+                                            # Left Column
                                             html.Div(
-                                                className="flex-none w-full max-w-full px-3",
+                                                className="w-1/2 px-3",
                                                 children=[
-                                                    # html.P(
-                                                    #     "Matches played",
-                                                    #     className="mb-0 font-sans text-lg font-semibold leading-none uppercase",
-                                                    # ),
-                                                    # html.H4(
-                                                    #     "78%",
-                                                    #     id="matches-played-card",
-                                                    #     className="mb-0 font-bold",
-                                                    # ),
-                                                    # html.P(
-                                                    #     className="mb-0 leading-none ",
-                                                    #     id="card1-average",
-                                                    #     children=[
-                                                    #         html.Span(
-                                                    #             "+55% ",
-                                                    #             className=" font-bold leading-none text-emerald-500",
-                                                    #         ),
-                                                    #         "above the average",
-                                                    #     ],
-                                                    # ),
+                                                    html.P("Age: 25", id="player-age", className="mb-2", style={"font-size": "18px"}),
+                                                    html.P("Nationality: Country", id="player-nationality", className="mb-2", style={"font-size": "18px"}),
+                                                    html.P("Continent: Continent", id="player-continent", className="mb-0", style={"font-size": "18px"}),
                                                 ],
-                                            )
+                                            ),
+                                            # Right Column
+                                            html.Div(
+                                                className="w-1/2 px-3",
+                                                children=[
+                                                    html.P("Club: Club Name", id="player-club", className="mb-2", style={"font-size": "18px"}),
+                                                    html.P("Position: Forward", id="player-position", className="mb-2", style={"font-size": "18px"}),
+                                                    html.P("Minutes90: 90", id="player-minutes", className="mb-0", style={"font-size": "18px"}),
+                                                ],
+                                            ),
                                         ],
-                                    )
+                                    ),
                                 ],
-                            )
+                            ),
                         ],
-                    )
+                    ),
                 ],
             ),
         ],
     )
     return player_card
+
