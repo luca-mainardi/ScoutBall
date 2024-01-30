@@ -1,0 +1,12 @@
+- create the dataset:
+i’m not good at manipulating data frames so it would take a lot of time to me
+but if you are familiar with that probably a couple of hours
+
+- create the player card:
+it should be quite easy since it’s only made of text components, I would say 2 hours
+
+- implement all the callbacks:
+this is the hard part, most of them should be easy
+but I do think know how to do the interaction between swarm and parallel so it could take more time.
+Also the selection with highlighting in charts could be not easy.
+So it’s better to not start the last days cause I don’t know how much time it takes
