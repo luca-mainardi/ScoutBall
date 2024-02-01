@@ -84,61 +84,166 @@ if __name__ == "__main__":
 
     # __________________________________ Dataset Filtering __________________________________
 
+    # Age Slider
+    @app.callback(
+        Output("age-slider", "min"),
+        Output("age-slider", "max"),
+        # Output("stat-1-slider", "value"),
+        Input("position-dropdown", "value"),
+    )
+    def update_slider_age(position):
+        df = DATASETS[position]
+        min_value = df["age"].min()
+
+        max_value = df["age"].max()
+
+        return min_value, max_value  # , [min_value, max_value]
+
+    @app.callback(
+        Output("age-slider", "value"),
+        Input("age-slider", "min"),
+        Input("age-slider", "max"),
+    )
+    def update_slider_age_value(min_value, max_value):
+        return [min_value, max_value]
+
+    # Slider 1
     @app.callback(
         Output("stat-1-slider", "min"),
         Output("stat-1-slider", "max"),
-        Output("stat-1-slider", "value"),
+        # Output("stat-1-slider", "value"),
         Input("position-dropdown", "value"),
     )
     def update_slider1(position):
         df = DATASETS[position]
         min_value = df[config.STATS[position][0]].min()
-        print(min_value)
-        max_value = df[config.STATS[position][0]].max()
-        print(max_value)
-        return min_value, max_value, [min_value, max_value]
 
+        max_value = df[config.STATS[position][0]].max()
+
+        return min_value, max_value  # , [min_value, max_value]
+
+    @app.callback(
+        Output("stat-1-slider", "value"),
+        Input("stat-1-slider", "min"),
+        Input("stat-1-slider", "max"),
+    )
+    def update_slider_value1(min_value, max_value):
+        return [min_value, max_value]
+
+    # Slider 2
     @app.callback(
         Output("stat-2-slider", "min"),
         Output("stat-2-slider", "max"),
-        Output("stat-2-slider", "value"),
+        # Output("stat-1-slider", "value"),
         Input("position-dropdown", "value"),
     )
     def update_slider2(position):
         df = DATASETS[position]
         min_value = df[config.STATS[position][1]].min()
-        print(min_value)
-        max_value = df[config.STATS[position][1]].max()
-        print(max_value)
-        return min_value, max_value, [min_value, max_value]
 
+        max_value = df[config.STATS[position][1]].max()
+
+        return min_value, max_value  # , [min_value, max_value]
+
+    @app.callback(
+        Output("stat-2-slider", "value"),
+        Input("stat-2-slider", "min"),
+        Input("stat-2-slider", "max"),
+    )
+    def update_slider_value2(min_value, max_value):
+        return [min_value, max_value]
+
+    # Slider 3
     @app.callback(
         Output("stat-3-slider", "min"),
         Output("stat-3-slider", "max"),
-        Output("stat-3-slider", "value"),
+        # Output("stat-1-slider", "value"),
         Input("position-dropdown", "value"),
     )
     def update_slider3(position):
         df = DATASETS[position]
         min_value = df[config.STATS[position][2]].min()
-        print(min_value)
-        max_value = df[config.STATS[position][2]].max()
-        print(max_value)
-        return min_value, max_value, [min_value, max_value]
 
+        max_value = df[config.STATS[position][2]].max()
+
+        return min_value, max_value  # , [min_value, max_value]
+
+    @app.callback(
+        Output("stat-3-slider", "value"),
+        Input("stat-3-slider", "min"),
+        Input("stat-3-slider", "max"),
+    )
+    def update_slider_value3(min_value, max_value):
+        return [min_value, max_value]
+
+    # Slider 4
     @app.callback(
         Output("stat-4-slider", "min"),
         Output("stat-4-slider", "max"),
-        Output("stat-4-slider", "value"),
+        # Output("stat-1-slider", "value"),
         Input("position-dropdown", "value"),
     )
     def update_slider4(position):
         df = DATASETS[position]
         min_value = df[config.STATS[position][3]].min()
-        print(min_value)
+
         max_value = df[config.STATS[position][3]].max()
-        print(max_value)
-        return min_value, max_value, [min_value, max_value]
+
+        return min_value, max_value  # , [min_value, max_value]
+
+    @app.callback(
+        Output("stat-4-slider", "value"),
+        Input("stat-4-slider", "min"),
+        Input("stat-4-slider", "max"),
+    )
+    def update_slider_value4(min_value, max_value):
+        return [min_value, max_value]
+
+    # Slider 5
+    @app.callback(
+        Output("stat-5-slider", "min"),
+        Output("stat-5-slider", "max"),
+        # Output("stat-1-slider", "value"),
+        Input("position-dropdown", "value"),
+    )
+    def update_slider5(position):
+        df = DATASETS[position]
+        min_value = df[config.STATS[position][4]].min()
+
+        max_value = df[config.STATS[position][4]].max()
+
+        return min_value, max_value  # , [min_value, max_value]
+
+    @app.callback(
+        Output("stat-5-slider", "value"),
+        Input("stat-5-slider", "min"),
+        Input("stat-5-slider", "max"),
+    )
+    def update_slider_value5(min_value, max_value):
+        return [min_value, max_value]
+
+    # Slider 6
+    @app.callback(
+        Output("stat-6-slider", "min"),
+        Output("stat-6-slider", "max"),
+        # Output("stat-1-slider", "value"),
+        Input("position-dropdown", "value"),
+    )
+    def update_slider6(position):
+        df = DATASETS[position]
+        min_value = df[config.STATS[position][5]].min()
+
+        max_value = df[config.STATS[position][5]].max()
+
+        return min_value, max_value  # , [min_value, max_value]
+
+    @app.callback(
+        Output("stat-6-slider", "value"),
+        Input("stat-6-slider", "min"),
+        Input("stat-6-slider", "max"),
+    )
+    def update_slider_value6(min_value, max_value):
+        return [min_value, max_value]
 
     @app.callback(
         Output("filtered-data-store", "data"),
@@ -170,7 +275,40 @@ if __name__ == "__main__":
         if selected_nationality != "All":
             filtered_df = filtered_df[filtered_df["team"] == selected_nationality]
 
-        # filtered_df = current_df
+        # Filter Age
+        stats = config.STATS[selected_position]
+        filtered_df = filtered_df[filtered_df["age"] >= slider_age_value[0]]
+        filtered_df = filtered_df[filtered_df["age"] <= slider_age_value[1]]
+
+        # Filter stat 1
+        stats = config.STATS[selected_position]
+        filtered_df = filtered_df[filtered_df[stats[0]] >= slider_value_1[0]]
+        filtered_df = filtered_df[filtered_df[stats[0]] <= slider_value_1[1]]
+
+        # Filter stat 2
+        stats = config.STATS[selected_position]
+        filtered_df = filtered_df[filtered_df[stats[1]] >= slider_value_2[0]]
+        filtered_df = filtered_df[filtered_df[stats[1]] <= slider_value_2[1]]
+
+        # Filter stat 3
+        stats = config.STATS[selected_position]
+        filtered_df = filtered_df[filtered_df[stats[2]] >= slider_value_3[0]]
+        filtered_df = filtered_df[filtered_df[stats[2]] <= slider_value_3[1]]
+
+        # Filter stat 4
+        stats = config.STATS[selected_position]
+        filtered_df = filtered_df[filtered_df[stats[3]] >= slider_value_4[0]]
+        filtered_df = filtered_df[filtered_df[stats[3]] <= slider_value_4[1]]
+
+        # Filter stat 5
+        stats = config.STATS[selected_position]
+        filtered_df = filtered_df[filtered_df[stats[4]] >= slider_value_5[0]]
+        filtered_df = filtered_df[filtered_df[stats[4]] <= slider_value_5[1]]
+
+        # Filter stat 6
+        stats = config.STATS[selected_position]
+        filtered_df = filtered_df[filtered_df[stats[5]] >= slider_value_6[0]]
+        filtered_df = filtered_df[filtered_df[stats[5]] <= slider_value_6[1]]
 
         # Return the updated filtered data to be stored in the 'filtered-data-store'
         return filtered_df.to_dict("records")
@@ -209,11 +347,12 @@ if __name__ == "__main__":
 
         fig = px.strip(
             df,
-            x="age",
+            x="overall_score",
             # y="team",
             # height=400,
             # width=800,
             stripmode="overlay",
+            hover_data=["player", "position"],
         )
 
         fig.update_layout(
@@ -308,6 +447,7 @@ if __name__ == "__main__":
         #         ]
 
         # return updated_strip_figure, updated_parallel_figure
+        print(strip_selected_data)
         pass
 
     # __________________________________ Choropleth Map Update __________________________________

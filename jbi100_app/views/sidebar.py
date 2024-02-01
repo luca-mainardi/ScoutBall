@@ -100,13 +100,13 @@ def build_sidebar():
                                         className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                                         id="age-slider",
                                         min=0,
-                                        max=0,
-                                        step=5,
+                                        max=1,
+                                        # step=5,
                                         value=[
                                             0,
-                                            0,
+                                            1,
                                         ],  # Initial values
-                                        marks={i: str(i) for i in range(11)},
+                                        # marks={i: str(i) for i in range(11)},
                                     ),
                                 ],
                             ),
@@ -157,15 +157,15 @@ def build_sidebar():
                                         className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                                         id="stat-1-slider",
                                         min=0,
-                                        max=0,
-                                        step=5,
+                                        max=1,
+                                        # step=5,
                                         value=[
                                             0,
-                                            0,
-                                        ],  # Valore iniziale del Range Slider
-                                        marks={
-                                            i: str(i) for i in range(11)
-                                        },  # Segni per il Range Slider
+                                            1,
+                                        ],  # Initial values
+                                        # marks={
+                                        #    i: str(i) for i in range(11)
+                                        # },  # Segni per il Range Slider
                                     ),
                                 ],
                             ),
@@ -187,15 +187,15 @@ def build_sidebar():
                                         className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                                         id="stat-2-slider",
                                         min=0,
-                                        max=0,
-                                        step=5,
+                                        max=1,
+                                        # step=5,
                                         value=[
                                             0,
-                                            0,
-                                        ],  # Valore iniziale del Range Slider
-                                        marks={
-                                            i: str(i) for i in range(11)
-                                        },  # Segni per il Range Slider
+                                            1,
+                                        ],  # Initial values
+                                        # marks={
+                                        #    i: str(i) for i in range(11)
+                                        # },  # Segni per il Range Slider
                                     ),
                                 ],
                             ),
@@ -217,15 +217,15 @@ def build_sidebar():
                                         className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                                         id="stat-3-slider",
                                         min=0,
-                                        max=0,
-                                        step=5,
+                                        max=1,
+                                        # step=5,
                                         value=[
                                             0,
-                                            0,
-                                        ],  # Valore iniziale del Range Slider
-                                        marks={
-                                            i: str(i) for i in range(11)
-                                        },  # Segni per il Range Slider
+                                            1,
+                                        ],  # Initial values
+                                        # marks={
+                                        #     i: str(i) for i in range(11)
+                                        # },  # Segni per il Range Slider
                                     ),
                                 ],
                             ),
@@ -247,15 +247,15 @@ def build_sidebar():
                                         className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                                         id="stat-4-slider",
                                         min=0,
-                                        max=0,
-                                        step=5,
+                                        max=1,
+                                        # step=5,
                                         value=[
                                             0,
-                                            0,
-                                        ],  # Valore iniziale del Range Slider
-                                        marks={
-                                            i: str(i) for i in range(11)
-                                        },  # Segni per il Range Slider
+                                            1,
+                                        ],  # Initial values
+                                        # marks={
+                                        #     i: str(i) for i in range(11)
+                                        # },  # Segni per il Range Slider
                                     ),
                                 ],
                             ),
@@ -277,15 +277,15 @@ def build_sidebar():
                                         className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                                         id="stat-5-slider",
                                         min=0,
-                                        max=0,
-                                        step=5,
+                                        max=1,
+                                        # step=5,
                                         value=[
                                             0,
-                                            0,
-                                        ],  # Valore iniziale del Range Slider
-                                        marks={
-                                            i: str(i) for i in range(11)
-                                        },  # Segni per il Range Slider
+                                            1,
+                                        ],  # Initial values
+                                        # marks={
+                                        #     i: str(i) for i in range(11)
+                                        # },  # Segni per il Range Slider
                                     ),
                                 ],
                             ),
@@ -307,15 +307,15 @@ def build_sidebar():
                                         className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                                         id="stat-6-slider",
                                         min=0,
-                                        max=0,
-                                        step=5,
+                                        max=1,
+                                        # step=5,
                                         value=[
                                             0,
-                                            0,
-                                        ],  # Valore iniziale del Range Slider
-                                        marks={
-                                            i: str(i) for i in range(11)
-                                        },  # Segni per il Range Slider
+                                            1,
+                                        ],  # Initial values
+                                        # marks={
+                                        #     i: str(i) for i in range(11)
+                                        # },  # Segni per il Range Slider
                                     ),
                                 ],
                             ),
