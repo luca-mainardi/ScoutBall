@@ -2,14 +2,11 @@ player,age,minutes_90s,team,position,dribble_tackles_pct,blocked_passes,blocked_
 Abdelkarim Hassan,29,3.0,Qatar,DF,75.0,0.6666666666666666,0.3333333333333333,Al Sadd SC,75.0,75.8,Asia
 Abdou Diallo,26,3.7,Senegal,DF,100.0,0.0,0.27027027027027023,RB Leipzig,53.8,74.7,Africa
 Abdulelah Al-Amri,25,2.0,Saudi Arabia,DF,0.0,0.5,0.5,Al-Nassr,71.4,71.2,Asia
-Abdullah Madu,29,0.5,Saudi Arabia,DF,,2.0,4.0,Al-Nassr,50.0,38.5,Asia
-Abolfazl Jalali,24,0.2,IR Iran,DF,,0.0,0.0,Esteghlal,,69.0,Asia
 Achraf Dari,23,2.1,Morocco,DF,33.3,1.4285714285714286,1.9047619047619047,Brest,50.0,89.2,Africa
 Achraf Hakimi,24,7.0,Morocco,DF,60.7,0.8571428571428571,0.14285714285714285,Paris S-G,38.5,81.7,Africa
 Alejandro Balde,19,1.4,Spain,DF,100.0,1.4285714285714286,0.0,Barcelona,0.0,91.1,Europe
 Alex Sandro,31,2.1,Brazil,DF,100.0,0.47619047619047616,0.0,Juventus,75.0,88.8,South America
 Alex Telles,30,0.7,Brazil,DF,100.0,0.0,0.0,Sevilla,50.0,78.6,South America
-Alexander Bah,25,0.5,Denmark,DF,66.7,4.0,0.0,Benfica,100.0,69.8,Europe
 Alexander Djiku,28,1.1,Ghana,DF,100.0,0.0,0.0,Strasbourg,100.0,78.6,Africa
 Ali Abdi,28,2.1,Tunisia,DF,100.0,0.47619047619047616,0.0,Caen,64.3,62.1,Africa
 Ali Al-Bulaihi,33,2.4,Saudi Arabia,DF,50.0,0.0,0.4166666666666667,Al-Hilal,50.0,80.4,Asia
@@ -21,13 +18,11 @@ Andrija Živković,26,2.3,Serbia,DF,66.7,2.173913043478261,0.0,PAOK,50.0,74.0,Eu
 Antonee Robinson,25,4.0,United States,DF,42.9,0.75,0.0,Fulham,62.5,71.8,North America
 Antonio Rüdiger,29,3.0,Germany,DF,,0.3333333333333333,0.6666666666666666,Real Madrid,85.7,90.9,Europe
 António Silva,19,1.0,Portugal,DF,50.0,1.0,1.0,Benfica,33.3,96.8,Europe
-Artur Jędrzejczyk,35,0.2,Poland,DF,,0.0,0.0,Legia Warsaw,,75.0,Europe
 Axel Disasi,24,1.0,France,DF,0.0,0.0,0.0,Monaco,100.0,78.2,Europe
 Aymeric Laporte,28,3.3,Spain,DF,100.0,0.0,0.0,Manchester City,62.5,94.3,Europe
 Aziz Behich,32,4.0,Australia,DF,83.3,1.0,0.5,Dundee United,50.0,74.9,Oceania
 Baba Rahman,28,2.0,Ghana,DF,100.0,0.5,0.0,Reading,33.3,66.0,Africa
 Badr Banoun,29,0.6,Morocco,DF,,1.6666666666666667,0.0,Qatar SC,0.0,95.5,Africa
-Bailey Wright,30,0.2,Australia,DF,,0.0,0.0,Sunderland,25.0,33.3,Oceania
 Bartosz Bereszyński,30,3.8,Poland,DF,50.0,0.7894736842105263,0.2631578947368421,Sampdoria,66.7,78.2,Europe
 Bassam Al-Rawi,25,1.0,Qatar,DF,0.0,0.0,0.0,Al Duhail SC,100.0,82.5,Asia
 Ben Davies,29,2.6,Wales,DF,100.0,0.7692307692307692,0.7692307692307692,Tottenham,63.6,75.8,Europe
@@ -37,7 +32,6 @@ Borna Sosa,24,4.7,Croatia,DF,83.3,0.851063829787234,0.0,Stuttgart,50.0,79.1,Euro
 Boualem Khoukhi,32,3.0,Qatar,DF,50.0,1.3333333333333333,0.6666666666666666,Al Sadd SC,46.2,85.8,Asia
 Bryan Oviedo,32,2.9,Costa Rica,DF,66.7,0.6896551724137931,0.3448275862068966,Real Salt Lake,100.0,75.3,North America
 Cameron Carter-Vickers,24,1.0,United States,DF,,1.0,0.0,Celtic,50.0,86.2,North America
-Carlos Martínez,23,0.5,Costa Rica,DF,50.0,2.0,0.0,AD San Carlos,100.0,66.7,North America
 Chris Mepham,25,3.0,Wales,DF,83.3,0.3333333333333333,0.6666666666666666,Bournemouth,77.8,82.0,Europe
 Christopher Wooh,21,1.0,Cameroon,DF,50.0,1.0,2.0,Rennes,,80.6,Africa
 Collins Fai,30,3.0,Cameroon,DF,50.0,0.6666666666666666,0.0,Al-Ta'ee,50.0,67.8,Africa
@@ -51,10 +45,8 @@ Dani Carvajal,30,1.5,Spain,DF,0.0,0.0,0.0,Real Madrid,0.0,89.6,Europe
 Daniel Amartey,27,2.8,Ghana,DF,100.0,0.35714285714285715,1.0714285714285714,Leicester City,55.6,90.8,Africa
 Danilo,31,3.1,Brazil,DF,66.7,0.3225806451612903,0.3225806451612903,Juventus,80.0,85.5,South America
 Danilo Pereira,31,1.0,Portugal,DF,100.0,0.0,1.0,Paris S-G,83.3,87.2,Europe
-Darko Lazović,32,0.3,Serbia,DF,,0.0,0.0,Hellas Verona,,58.3,Europe
 David Raum,24,2.7,Germany,DF,50.0,3.333333333333333,0.37037037037037035,RB Leipzig,62.5,78.5,Europe
 Dayot Upamecano,24,5.3,France,DF,100.0,0.18867924528301888,0.7547169811320755,Bayern Munich,50.0,89.5,Europe
-DeAndre Yedlin,29,0.4,United States,DF,100.0,0.0,0.0,Inter Miami,100.0,67.9,North America
 Dejan Lovren,33,6.7,Croatia,DF,60.0,0.29850746268656714,0.7462686567164178,Zenit,73.9,88.0,Europe
 Denzel Dumfries,26,5.3,Netherlands,DF,83.3,0.7547169811320755,0.18867924528301888,Inter,47.4,68.7,Europe
 Diego Godín,36,1.7,Uruguay,DF,,0.0,0.0,Vélez Sarsf,80.0,84.5,South America
@@ -62,8 +54,6 @@ Diogo Dalot,23,2.9,Portugal,DF,100.0,1.7241379310344829,0.6896551724137931,Manch
 Dylan Bronn,27,1.8,Tunisia,DF,100.0,0.5555555555555556,0.5555555555555556,Salernitana,33.3,76.5,Africa
 Eduardo Camavinga,20,1.6,France,DF,80.0,2.5,0.0,Real Madrid,100.0,88.0,Europe
 Enzo Ebosse,23,1.0,Cameroon,DF,100.0,1.0,0.0,Udinese,100.0,89.5,Africa
-Eray Cömert,24,0.5,Switzerland,DF,0.0,2.0,0.0,Valencia,,90.5,Europe
-Eric Dier,28,0.4,England,DF,,0.0,0.0,Tottenham,50.0,97.6,Europe
 Fabian Schär,30,1.5,Switzerland,DF,100.0,0.0,0.6666666666666666,Newcastle Utd,50.0,79.3,Europe
 Filip Kostić,30,2.0,Serbia,DF,100.0,1.5,0.0,Juventus,,63.7,Europe
 Filip Mladenović,31,0.7,Serbia,DF,0.0,1.4285714285714286,0.0,Legia Warsaw,100.0,80.0,Europe
@@ -78,10 +68,7 @@ Guillermo Varela,29,2.0,Uruguay,DF,75.0,0.5,0.0,Flamengo,33.3,67.4,South America
 Harry Maguire,29,4.8,England,DF,50.0,0.20833333333333334,0.625,Manchester Utd,75.0,87.0,Europe
 Harry Souttar,24,4.0,Australia,DF,66.7,0.75,1.0,Stoke City,66.7,82.6,Oceania
 Hassan Al Tambakti,23,2.0,Saudi Arabia,DF,60.0,0.5,1.0,Al-Shabab,50.0,72.7,Asia
-Hiroki Ito,23,0.5,Japan,DF,,0.0,0.0,Stuttgart,100.0,92.1,Asia
 Homam Ahmed,23,2.9,Qatar,DF,33.3,0.0,0.0,Al-Gharafa Sports Club,71.4,73.3,Asia
-Hong Chul,32,0.5,Korea Republic,DF,,2.0,2.0,Daegu,100.0,85.0,Asia
-Hossein Kanaanizadegan,28,0.5,IR Iran,DF,0.0,0.0,2.0,Al Ahli SC,,72.7,Asia
 Héctor Moreno,34,3.0,Mexico,DF,100.0,0.3333333333333333,0.3333333333333333,Monterrey,38.5,84.6,North America
 Ibrahima Konaté,23,3.3,France,DF,100.0,0.9090909090909092,0.6060606060606061,Liverpool,83.3,91.5,Europe
 Ismail Jakobs,23,3.1,Senegal,DF,0.0,0.9677419354838709,0.0,Monaco,72.7,68.6,Africa
@@ -134,7 +121,6 @@ Martín Cáceres,35,1.0,Uruguay,DF,0.0,0.0,0.0,LA Galaxy,100.0,86.1,South Americ
 Mathías Olivera,25,2.8,Uruguay,DF,57.1,3.2142857142857144,0.0,Napoli,60.0,78.2,South America
 Matthijs de Ligt,23,1.0,Netherlands,DF,,0.0,0.0,Bayern Munich,71.4,91.1,Europe
 Matty Cash,25,4.0,Poland,DF,50.0,1.25,0.5,Aston Villa,66.7,76.9,Europe
-Matías Viña,25,0.2,Uruguay,DF,100.0,0.0,0.0,Roma,,52.4,South America
 Maya Yoshida,34,4.3,Japan,DF,100.0,0.6976744186046512,0.6976744186046512,Schalke 04,58.8,85.3,Asia
 Miki Yamane,28,0.7,Japan,DF,,2.857142857142857,0.0,Kawa Frontale,0.0,72.7,Asia
 Milad Mohammadi,29,2.2,IR Iran,DF,75.0,0.9090909090909091,0.0,AEK Athens,50.0,64.7,Asia
@@ -161,7 +147,6 @@ Niklas Süle,27,3.0,Germany,DF,100.0,0.0,0.3333333333333333,Dortmund,66.7,90.6,E
 Nikola Milenković,25,3.0,Serbia,DF,83.3,0.6666666666666666,1.3333333333333333,Fiorentina,75.0,86.5,Europe
 Nouhou Tolo,25,3.0,Cameroon,DF,60.0,1.0,0.6666666666666666,Seattle,57.1,76.1,Africa
 Noussair Mazraoui,25,4.1,Morocco,DF,72.7,1.2195121951219514,0.24390243902439027,Bayern Munich,25.0,81.0,Africa
-Nuno Mendes,20,0.5,Portugal,DF,,2.0,0.0,Paris S-G,100.0,90.6,Europe
 Néstor Araujo,31,1.0,Mexico,DF,100.0,0.0,0.0,América,,83.0,North America
 Pape Abou Cissé,27,1.2,Senegal,DF,,0.0,1.6666666666666667,Olympiacos,40.0,75.7,Africa
 Pau Torres,25,1.0,Spain,DF,,0.0,1.0,Villarreal,50.0,91.1,Europe
@@ -174,23 +159,19 @@ Raphaël Varane,29,5.8,France,DF,0.0,0.1724137931034483,0.5172413793103449,Manch
 Rasmus Nissen,25,2.5,Denmark,DF,50.0,0.8,0.4,Leeds United,75.0,76.5,Europe
 Ricardo Rodríguez,30,4.0,Switzerland,DF,66.7,0.25,0.0,Torino,83.3,71.6,Europe
 Richie Laryea,27,1.8,Canada,DF,100.0,0.5555555555555556,0.5555555555555556,Toronto FC,0.0,74.5,North America
-Robert Skov,26,0.2,Denmark,DF,,0.0,0.0,Hoffenheim,0.0,81.0,Europe
 Rodri,26,4.3,Spain,DF,100.0,0.23255813953488372,0.46511627906976744,Manchester City,76.2,93.2,Europe
 Romain Saïss,32,5.2,Morocco,DF,40.0,0.3846153846153846,0.1923076923076923,Beşiktaş,100.0,79.9,Africa
 Roozbeh Cheshmi,29,0.6,IR Iran,DF,,0.0,1.6666666666666667,Esteghlal,33.3,63.6,Asia
 Ró-Ró,32,2.9,Qatar,DF,50.0,0.6896551724137931,0.0,Al Sadd SC,60.0,72.2,Asia
-Rónald Matarrita,28,0.3,Costa Rica,DF,,3.3333333333333335,0.0,FC Cincinnati,,62.1,North America
 Rúben Dias,25,4.0,Portugal,DF,0.0,0.5,0.0,Manchester City,62.5,90.5,Europe
 Sadegh Moharrami,26,1.0,IR Iran,DF,0.0,1.0,0.0,Dinamo Zagreb,33.3,69.2,Asia
 Sam Adekugbe,27,1.1,Canada,DF,,0.9090909090909091,0.0,Hatayspor,100.0,88.7,North America
 Saud Abdulhamid,23,3.0,Saudi Arabia,DF,100.0,1.0,0.0,Al-Hilal,40.0,72.1,Asia
 Sebastián Coates,32,2.0,Uruguay,DF,,1.0,0.5,Sporting CP,100.0,81.7,South America
 Sergiño Dest,22,3.4,United States,DF,66.7,0.8823529411764706,0.0,Milan,25.0,86.0,North America
-Shaquell Moore,26,0.2,United States,DF,100.0,0.0,0.0,Nashville,100.0,66.7,North America
 Shogo Taniguchi,31,2.3,Japan,DF,,0.0,0.8695652173913044,Kawa Frontale,72.7,84.7,Asia
 Silvan Widmer,29,2.9,Switzerland,DF,100.0,1.0344827586206897,0.0,Mainz 05,75.0,75.1,Europe
 Simon Kjær,33,0.7,Denmark,DF,,0.0,1.4285714285714286,Milan,75.0,84.7,Europe
-Stefan Mitrović,32,0.4,Serbia,DF,0.0,0.0,0.0,Getafe,0.0,85.7,Europe
 Steven Vitória,35,3.0,Canada,DF,100.0,0.6666666666666666,0.6666666666666666,Chaves,66.7,86.0,North America
 Strahinja Pavlović,21,2.6,Serbia,DF,50.0,1.923076923076923,0.3846153846153846,RB Salzburg,85.7,77.6,Europe
 Sultan Al-Ghanam,28,1.4,Saudi Arabia,DF,0.0,1.4285714285714286,0.7142857142857143,Al-Nassr,,65.4,Asia
@@ -203,17 +184,14 @@ Thomas Meunier,31,2.3,Belgium,DF,80.0,0.4347826086956522,0.0,Dortmund,40.0,74.8,
 Tim Ream,35,4.0,United States,DF,100.0,0.25,0.25,Fulham,42.9,88.8,North America
 Timothy Castagne,27,3.0,Belgium,DF,66.7,0.3333333333333333,0.0,Leicester City,40.0,87.1,Europe
 Toby Alderweireld,33,3.0,Belgium,DF,40.0,0.6666666666666666,0.3333333333333333,Antwerp,33.3,90.8,Europe
-Trent Alexander-Arnold,24,0.4,England,DF,,2.5,0.0,Liverpool,,91.3,Europe
 Victor Nelsson,24,1.0,Denmark,DF,0.0,1.0,1.0,Galatasaray,57.1,93.2,Europe
 Virgil van Dijk,31,5.3,Netherlands,DF,50.0,0.18867924528301888,1.3207547169811322,Liverpool,61.9,87.4,Europe
 Wajdi Kechrida,27,1.2,Tunisia,DF,100.0,1.6666666666666667,0.8333333333333334,Atromitos,33.3,63.8,Africa
 Walker Zimmerman,29,3.1,United States,DF,75.0,0.3225806451612903,0.9677419354838709,Nashville,61.5,88.9,North America
-William Saliba,21,0.3,France,DF,,3.3333333333333335,0.0,Arsenal,,100.0,Europe
 Yahya Attiat Allah,27,3.5,Morocco,DF,42.9,1.1428571428571428,0.0,Wydad Casablanca,0.0,71.5,Africa
 Yasser Al-Shahrani,30,1.0,Saudi Arabia,DF,100.0,0.0,0.0,Al-Hilal,,44.8,Asia
 Yassine Meriah,29,3.0,Tunisia,DF,37.5,1.6666666666666667,0.0,Espérance de Tunis,45.5,81.3,Africa
 Youssouf Sabaly,29,4.0,Senegal,DF,60.0,0.25,0.0,Betis,57.1,86.3,Africa
-Youstin Salas,26,0.5,Costa Rica,DF,42.9,4.0,2.0,Deportivo Saprissa,100.0,78.9,North America
 Ángelo Preciado,24,2.9,Ecuador,DF,50.0,0.6896551724137931,0.0,Genk,60.0,72.9,South America
 Éder Militão,24,3.9,Brazil,DF,75.0,0.25641025641025644,0.0,Real Madrid,44.4,90.6,South America
 Óscar Duarte,33,3.0,Costa Rica,DF,100.0,0.6666666666666666,0.3333333333333333,Al-Wehda,40.0,69.4,North America
