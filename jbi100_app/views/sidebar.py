@@ -10,14 +10,6 @@ from dash.dependencies import Input, Output
 
 import jbi100_app.config as config
 
-df_player_goalkeepers = pd.read_csv(
-    "Data/goalkeepers.csv",
-    delimiter=",",
-)
-df_outfield_players = pd.read_csv(
-    "Data/outfield_players.csv",
-    delimiter=",",
-)
 gdp_data = pd.read_csv(
     "https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv"
 )
@@ -107,16 +99,14 @@ def build_sidebar():
                                     dcc.RangeSlider(
                                         className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                                         id="age-slider",
-                                        min=min(df_outfield_players["age"]),
-                                        max=max(df_outfield_players["age"]),
+                                        min=0,
+                                        max=0,
                                         step=5,
                                         value=[
-                                            min(df_outfield_players["age"]),
-                                            max(df_outfield_players["age"]),
-                                        ],  # Valore iniziale del Range Slider
-                                        marks={
-                                            i: str(i) for i in range(11)
-                                        },  # Segni per il Range Slider
+                                            0,
+                                            0,
+                                        ],  # Initial values
+                                        marks={i: str(i) for i in range(11)},
                                     ),
                                 ],
                             ),
@@ -136,12 +126,12 @@ def build_sidebar():
                             #         dcc.RangeSlider(
                             #             className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                             #             id="range-slider-2",
-                            #             min=min(df_outfield_players["age"]),
-                            #             max=max(df_outfield_players["age"]),
+                            #             min=0,
+                            #             max=0,
                             #             step=5,
                             #             value=[
-                            #                 min(df_outfield_players["age"]),
-                            #                 max(df_outfield_players["age"]),
+                            #                 0,
+                            #                 0,
                             #             ],  # Valore iniziale del Range Slider
                             #             marks={
                             #                 i: str(i) for i in range(11)
@@ -166,12 +156,12 @@ def build_sidebar():
                                     dcc.RangeSlider(
                                         className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                                         id="stat-1-slider",
-                                        min=min(df_outfield_players["age"]),
-                                        max=max(df_outfield_players["age"]),
+                                        min=0,
+                                        max=0,
                                         step=5,
                                         value=[
-                                            min(df_outfield_players["age"]),
-                                            max(df_outfield_players["age"]),
+                                            0,
+                                            0,
                                         ],  # Valore iniziale del Range Slider
                                         marks={
                                             i: str(i) for i in range(11)
@@ -196,12 +186,12 @@ def build_sidebar():
                                     dcc.RangeSlider(
                                         className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                                         id="stat-2-slider",
-                                        min=min(df_outfield_players["age"]),
-                                        max=max(df_outfield_players["age"]),
+                                        min=0,
+                                        max=0,
                                         step=5,
                                         value=[
-                                            min(df_outfield_players["age"]),
-                                            max(df_outfield_players["age"]),
+                                            0,
+                                            0,
                                         ],  # Valore iniziale del Range Slider
                                         marks={
                                             i: str(i) for i in range(11)
@@ -226,12 +216,12 @@ def build_sidebar():
                                     dcc.RangeSlider(
                                         className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                                         id="stat-3-slider",
-                                        min=min(df_outfield_players["age"]),
-                                        max=max(df_outfield_players["age"]),
+                                        min=0,
+                                        max=0,
                                         step=5,
                                         value=[
-                                            min(df_outfield_players["age"]),
-                                            max(df_outfield_players["age"]),
+                                            0,
+                                            0,
                                         ],  # Valore iniziale del Range Slider
                                         marks={
                                             i: str(i) for i in range(11)
@@ -256,12 +246,12 @@ def build_sidebar():
                                     dcc.RangeSlider(
                                         className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                                         id="stat-4-slider",
-                                        min=min(df_outfield_players["age"]),
-                                        max=max(df_outfield_players["age"]),
+                                        min=0,
+                                        max=0,
                                         step=5,
                                         value=[
-                                            min(df_outfield_players["age"]),
-                                            max(df_outfield_players["age"]),
+                                            0,
+                                            0,
                                         ],  # Valore iniziale del Range Slider
                                         marks={
                                             i: str(i) for i in range(11)
@@ -286,12 +276,12 @@ def build_sidebar():
                                     dcc.RangeSlider(
                                         className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                                         id="stat-5-slider",
-                                        min=min(df_outfield_players["age"]),
-                                        max=max(df_outfield_players["age"]),
+                                        min=0,
+                                        max=0,
                                         step=5,
                                         value=[
-                                            min(df_outfield_players["age"]),
-                                            max(df_outfield_players["age"]),
+                                            0,
+                                            0,
                                         ],  # Valore iniziale del Range Slider
                                         marks={
                                             i: str(i) for i in range(11)
@@ -316,12 +306,12 @@ def build_sidebar():
                                     dcc.RangeSlider(
                                         className="pl-6 w-full leading-5.6 relative -ml-px min-w-0 flex-auto bg-white bg-clip-padding text-gray-500 transition-all",
                                         id="stat-6-slider",
-                                        min=min(df_outfield_players["age"]),
-                                        max=max(df_outfield_players["age"]),
+                                        min=0,
+                                        max=0,
                                         step=5,
                                         value=[
-                                            min(df_outfield_players["age"]),
-                                            max(df_outfield_players["age"]),
+                                            0,
+                                            0,
                                         ],  # Valore iniziale del Range Slider
                                         marks={
                                             i: str(i) for i in range(11)

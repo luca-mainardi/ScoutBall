@@ -84,11 +84,13 @@ if __name__ == "__main__":
     # __________________________________ Dataset Filtering __________________________________
 
     @app.callback(
-        Output("filtered-data-store", "data"),
+        [
+            Output("filtered-data-store", "data"),
+            Output("age-slider", "value"),
+        ],
         [
             Input("position-dropdown", "value"),
             Input("nationality-dropdown", "value"),
-            Input("age-slider", "value"),
         ]
         + [Input(f"stat-{i}-slider", "value") for i in range(1, 7)],
         State("filtered-data-store", "data"),
