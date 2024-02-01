@@ -144,7 +144,6 @@ if __name__ == "__main__":
     #
     #     df = pd.DataFrame(data)
     #
-    #     pass
     # )
 
     # __________________________________ Swarm Plot Update __________________________________
@@ -231,12 +230,40 @@ if __name__ == "__main__":
         [State("swarm-plot", "figure"), State("parallel-coord-chart", "figure")],
         prevent_initial_call=True,
     )
-    def update_selection(
-        strip_selected_data,
-        parallel_click_data,
-        strip_chart_figure,
-        parallel_chart_figure,
-    ):
+
+    def update_parallel_coordinates_chart(data, position, selected_index):
+        df = pd.DataFrame(data)
+        pos = position
+
+        dimensions = []
+        for i in range(6):
+            dim = dict(
+                range=[min(df[config.STATS[pos][i]]), max(df[config.STATS[pos][i]])],
+                label=config.STATS[pos][i],
+                values=df[config.STATS[pos][i]],
+            )
+            # Highlight the selected line by changing its color to red
+            if i == selected_index:
+                dim['constraintrange'] = [df[config.STATS[pos][i]].iloc[selected_index],
+                                          df[config.STATS[pos][i]].iloc[selected_index]]
+                dim['line'] = dict(color='red')  # Set the color of the selected line to red
+            dimensions.append(dim)
+
+        figure = go.Figure(
+            data=go.Parcoords(
+                line_color="blue",
+                dimensions=dimensions
+            )
+        )
+
+        return figure
+
+    # def update_selection(
+    #     strip_selected_data,
+    #     parallel_click_data,
+    #     strip_chart_figure,
+    #     parallel_chart_figure,
+    # ):
         # updated_strip_figure = strip_chart_figure.copy()
         # updated_parallel_figure = parallel_chart_figure.copy()
 
@@ -256,7 +283,7 @@ if __name__ == "__main__":
         #         ]
 
         # return updated_strip_figure, updated_parallel_figure
-        pass
+
 
     # __________________________________ Choropleth Map Update __________________________________
 
