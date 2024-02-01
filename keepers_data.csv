@@ -1,0 +1,41 @@
+player,team,age,club,position,minutes_90s,gk_clean_sheets_pct,gk_save_pct,gk_pens_save_pct,gk_passes_pct_launched,gk_crosses_stopped_pct,passes_pct,team_cont
+Aimen Dahmen,Tunisia,25,CS Sfaxien,GK,3.0,66.7,90.0,,36.6,0.0,62.3,Africa
+Alireza Beiranvand,IR Iran,30,Persepolis,GK,1.2,0.0,80.0,,31.3,0.0,64.5,Asia
+Alisson,Brazil,30,Liverpool,GK,4.2,50.0,71.4,,35.7,0.0,86.0,South America
+Andries Noppert,Netherlands,28,Heerenveen,GK,5.3,40.0,86.4,0.0,40.0,9.5,81.8,Europe
+André Onana,Cameroon,26,Inter,GK,0.9,0.0,66.7,,30.0,0.0,76.3,Africa
+Danny Ward,Wales,29,Leicester City,GK,1.0,0.0,44.4,,44.4,7.1,61.5,Europe
+Devis Epassy,Cameroon,29,Abha,GK,2.0,50.0,75.0,,48.9,7.5,68.7,Africa
+Diogo Costa,Portugal,23,Porto,GK,5.0,20.0,64.7,,25.0,6.4,70.6,Europe
+Dominik Livaković,Croatia,27,Dinamo Zagreb,GK,7.7,28.6,80.6,0.0,49.2,8.1,85.1,Europe
+Ederson,Brazil,29,Manchester City,GK,1.0,0.0,66.7,,75.0,0.0,90.3,South America
+Edouard Mendy,Senegal,30,Chelsea,GK,4.0,0.0,50.0,,34.1,4.7,73.3,Africa
+Emiliano Martínez,Argentina,30,Aston Villa,GK,7.7,42.9,53.8,0.0,19.2,13.8,64.2,South America
+Gregor Kobel,Switzerland,25,Dortmund,GK,1.0,0.0,50.0,,11.1,0.0,72.4,Europe
+Guillermo Ochoa,Mexico,37,América,GK,3.0,33.3,50.0,100.0,41.7,0.0,85.3,North America
+Hernán Galíndez,Ecuador,35,SD Aucas,GK,3.0,33.3,50.0,0.0,27.5,3.8,59.5,South America
+Hossein Hosseini,IR Iran,30,Esteghlal,GK,1.8,100.0,40.0,,26.7,14.8,48.9,Asia
+Hugo Lloris,France,35,Tottenham,GK,6.3,16.7,83.3,0.0,34.0,10.0,60.4,Europe
+Jordan Pickford,England,28,Everton,GK,5.0,60.0,72.7,0.0,39.2,5.1,78.8,Europe
+Kasper Schmeichel,Denmark,36,Nice,GK,3.0,33.3,72.7,,37.5,0.0,82.8,Europe
+Keylor Navas,Costa Rica,36,Paris S-G,GK,3.0,33.3,54.5,0.0,34.5,3.9,59.8,North America
+Kim Seung-gyu,Korea Republic,32,Al-Shabab,GK,4.0,25.0,63.2,0.0,26.2,6.4,72.7,Asia
+Lawrence Ati-Zigi,Ghana,26,St. Gallen,GK,3.0,0.0,64.7,0.0,36.1,3.4,69.2,Africa
+Manuel Neuer,Germany,36,Bayern Munich,GK,3.0,0.0,61.5,,46.7,0.0,90.6,Europe
+Mathew Ryan,Australia,30,FC Copenhagen,GK,4.0,50.0,66.7,,44.7,4.8,68.9,Oceania
+Matt Turner,United States,28,Arsenal,GK,4.0,50.0,75.0,0.0,34.2,16.7,78.9,North America
+Meshaal Barsham,Qatar,24,Al Sadd SC,GK,2.0,0.0,44.4,,31.6,4.5,71.4,Asia
+Milan Borjan,Canada,35,Red Star,GK,3.0,0.0,53.3,,37.9,0.0,77.6,North America
+Mohammed Al-Owais,Saudi Arabia,31,Al-Hilal,GK,3.0,0.0,78.9,0.0,30.2,7.3,57.0,Asia
+Munir,Morocco,33,Al-Wehda,GK,1.0,100.0,100.0,,38.5,0.0,67.9,Africa
+Saad Al Sheeb,Qatar,32,Al Sadd SC,GK,1.0,0.0,66.7,0.0,66.7,0.0,90.0,Asia
+Sergio Rochet,Uruguay,29,Nacional,GK,3.0,66.7,85.7,50.0,22.2,6.1,69.2,South America
+Shūichi Gonda,Japan,33,S-Pulse,GK,4.3,0.0,84.2,0.0,22.2,6.6,60.2,Asia
+Steve Mandanda,France,37,Rennes,GK,1.0,0.0,66.7,,8.3,5.3,61.3,Europe
+Thibaut Courtois,Belgium,30,Real Madrid,GK,3.0,66.7,81.8,100.0,43.5,2.8,87.8,Europe
+Unai Simón,Spain,25,Athletic Club,GK,4.3,50.0,66.7,,63.6,18.2,93.8,Europe
+Vanja Milinković-Savić,Serbia,25,Torino,GK,3.0,0.0,66.7,,34.0,10.7,72.0,Europe
+Wayne Hennessey,Wales,35,Nott'ham Forest,GK,1.9,0.0,80.0,,42.3,5.9,75.8,Europe
+Wojciech Szczęsny,Poland,32,Juventus,GK,4.0,50.0,82.1,100.0,42.1,1.5,59.2,Europe
+Yann Sommer,Switzerland,34,M'Gladbach,GK,3.0,33.3,63.2,,41.7,4.1,91.5,Europe
+Yassine Bounou,Morocco,31,Sevilla,GK,6.3,50.0,54.5,,40.5,5.4,73.7,Africa
