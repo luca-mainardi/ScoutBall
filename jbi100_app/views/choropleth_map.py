@@ -14,6 +14,8 @@ gdp_data = pd.read_csv(
     "https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv"
 )
 
+colorscale = [[0, 'rgb(239, 246, 255)'], [1, 'rgb(94, 114, 228)']]  # Light to dark from low to high values
+
 
 def build_choropleth_map():
     choropleth_map = html.Div(
@@ -32,9 +34,9 @@ def build_choropleth_map():
                                         locations=gdp_data["CODE"],
                                         z=gdp_data["GDP (BILLIONS)"],
                                         text=gdp_data["COUNTRY"],
-                                        colorscale="Blues",
+                                        colorscale=colorscale,
                                         autocolorscale=False,
-                                        reversescale=True,
+                                        reversescale=False,
                                         marker_line_color="grey",  # Set to 'white' to remove black border
                                         marker_line_width=0.5,
                                         colorbar_tickprefix="$",

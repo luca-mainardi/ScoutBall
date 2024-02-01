@@ -9,7 +9,7 @@ import plotly.graph_objs as go
 from dash import dash_table, dcc, html
 from dash.dependencies import Input, Output, State
 
-import jbi100_app.config
+import jbi100_app.config as config
 from jbi100_app.main import app
 from jbi100_app.views.choropleth_map import build_choropleth_map
 from jbi100_app.views.parallel_coordinates_chart import build_parallel_coordinates_chart
@@ -135,19 +135,32 @@ if __name__ == "__main__":
     # __________________________________ Player Card Update __________________________________
     # The selected player makes the following parts of the card change: name, age, country, club, continent, position
 
+    # @app.callback(
+    #     Output("player-card", "figure"),
+    #     Input("filtered-data-store", "data")
+    # )
+    #
+    # def update_player_card(data):
+    #
+    #     df = pd.DataFrame(data)
+    #
+    #     pass
+    # )
+
     # __________________________________ Swarm Plot Update __________________________________
     @app.callback(
         Output("swarm-plot", "figure"),
         Input("filtered-data-store", "data"),
     )
     def update_swarm_plot(data):
-        df = px.data.tips()
-        df_plot = df[df.day == "Sat"]
+
+        df = pd.DataFrame(data)
+
 
         fig = px.strip(
-            df_plot,
-            x="total_bill",
-            y="day",
+            df,
+            x="age",
+            # y="team",
             # height=400,
             # width=800,
             stripmode="overlay",
@@ -176,10 +189,31 @@ if __name__ == "__main__":
     # __________________________________ Parallel Coordinates Chart Update __________________________________
     @app.callback(
         Output("parallel-coord-chart", "figure"),
-        Input("filtered-data-store", "data"),
+        [
+            Input("filtered-data-store", "data"),
+            Input("position-dropdown", "value"),
+        ]
     )
-    def update_parallel_coordinates_chart(data):
-        pass
+    def update_parallel_coordinates_chart(data, position):
+
+        df = pd.DataFrame(data)
+        pos = position
+
+        figure = go.Figure(
+            data=go.Parcoords(
+                line_color="blue",
+                dimensions=[
+                    dict(
+                        range=[min(df[config.STATS[pos][i]]), max(df[config.STATS[pos][i]])],
+                        label=config.STATS[pos][i],
+                        values=df[config.STATS[pos][i]],
+                    )
+                    for i in range(6)  # Iterate over indices from 0 to 5
+                ]
+            )
+        )
+
+        return figure
 
     # __________________________________ Swarm plot and parallel coordinates selection __________________________________
 

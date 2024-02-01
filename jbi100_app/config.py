@@ -38,7 +38,7 @@ NATIONALITIES = [
 OUTFIELD_PLAYERS_STATS = []
 
 STATS = {
-    "gK": [
+    "GK": [
         "gk_clean_sheets_pct",
         "gk_save_pct",
         "gk_pens_save_pct",
@@ -55,7 +55,7 @@ STATS = {
         "passes_pct",
     ],
     "MF": [
-        "tackles",
+        "tackles_won_pct",
         "interceptions",
         "goals_assists_per90",
         "passes_pct",
