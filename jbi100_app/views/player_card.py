@@ -2,6 +2,7 @@ from dash import html
 
 def build_player_card():
     player_card = html.Div(
+        id="player-card",
         className="flex flex-wrap -mx-3 justify-center items-center",
         children=[
             # Player Card
@@ -29,18 +30,18 @@ def build_player_card():
                                             html.Div(
                                                 className="w-1/2 px-3",
                                                 children=[
-                                                    html.P("Age: 25", id="player-age", className="mb-2", style={"font-size": "18px"}),
-                                                    html.P("Nationality: Country", id="player-nationality", className="mb-2", style={"font-size": "18px"}),
-                                                    html.P("Continent: Continent", id="player-continent", className="mb-0", style={"font-size": "18px"}),
+                                                    html.P("Age: ", id="player-age", className="mb-2", style={"font-size": "18px"}),
+                                                    html.P("Nationality: ", id="player-nationality", className="mb-2", style={"font-size": "18px"}),
+                                                    html.P("Continent: ", id="player-continent", className="mb-0", style={"font-size": "18px"}),
                                                 ],
                                             ),
                                             # Right Column
                                             html.Div(
                                                 className="w-1/2 px-3",
                                                 children=[
-                                                    html.P("Club: Club Name", id="player-club", className="mb-2", style={"font-size": "18px"}),
-                                                    html.P("Position: Forward", id="player-position", className="mb-2", style={"font-size": "18px"}),
-                                                    html.P("Minutes90: 90", id="player-minutes", className="mb-0", style={"font-size": "18px"}),
+                                                    html.P("Club: ", id="player-club", className="mb-2", style={"font-size": "18px"}),
+                                                    html.P("Position: ", id="player-position", className="mb-2", style={"font-size": "18px"}),
+                                                    html.P("Matches: ", id="player-minutes", className="mb-0", style={"font-size": "18px"}),
                                                 ],
                                             ),
                                         ],
