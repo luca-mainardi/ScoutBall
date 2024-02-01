@@ -1,5 +1,6 @@
 from dash import html
 
+
 def build_player_card():
     player_card = html.Div(
         id="player-card",
@@ -17,7 +18,6 @@ def build_player_card():
                                 children=[
                                     # Player Name
                                     html.P(
-                                        "Player Name",
                                         id="player-name",
                                         className="mb-4 font-sans text-3xl font-semibold leading-none uppercase",
                                         style={"font-size": "32px"},
@@ -30,18 +30,42 @@ def build_player_card():
                                             html.Div(
                                                 className="w-1/2 px-3",
                                                 children=[
-                                                    html.P("Age: ", id="player-age", className="mb-2", style={"font-size": "18px"}),
-                                                    html.P("Nationality: ", id="player-nationality", className="mb-2", style={"font-size": "18px"}),
-                                                    html.P("Continent: ", id="player-continent", className="mb-0", style={"font-size": "18px"}),
+                                                    html.P(
+                                                        id="player-age",
+                                                        className="mb-2",
+                                                        style={"font-size": "18px"},
+                                                    ),
+                                                    html.P(
+                                                        id="player-nationality",
+                                                        className="mb-2",
+                                                        style={"font-size": "18px"},
+                                                    ),
+                                                    html.P(
+                                                        id="player-continent",
+                                                        className="mb-0",
+                                                        style={"font-size": "18px"},
+                                                    ),
                                                 ],
                                             ),
                                             # Right Column
                                             html.Div(
                                                 className="w-1/2 px-3",
                                                 children=[
-                                                    html.P("Club: ", id="player-club", className="mb-2", style={"font-size": "18px"}),
-                                                    html.P("Position: ", id="player-position", className="mb-2", style={"font-size": "18px"}),
-                                                    html.P("Matches: ", id="player-minutes", className="mb-0", style={"font-size": "18px"}),
+                                                    html.P(
+                                                        id="player-club",
+                                                        className="mb-2",
+                                                        style={"font-size": "18px"},
+                                                    ),
+                                                    html.P(
+                                                        id="player-position",
+                                                        className="mb-2",
+                                                        style={"font-size": "18px"},
+                                                    ),
+                                                    html.P(
+                                                        id="player-minutes",
+                                                        className="mb-0",
+                                                        style={"font-size": "18px"},
+                                                    ),
                                                 ],
                                             ),
                                         ],
@@ -55,4 +79,3 @@ def build_player_card():
         ],
     )
     return player_card
-

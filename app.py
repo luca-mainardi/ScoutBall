@@ -52,7 +52,7 @@ if __name__ == "__main__":
         children=[
             # Filtered Dataset
             dcc.Store(id="filtered-data-store", data=df_attackers.to_dict("records")),
-            dcc.Store(id="selected-player", data={"player": ""}),
+            dcc.Store(id="selected-player", data="Gareth Bale"),
             # Background
             html.Div(className="absolute w-full bg-blue-500 min-h-75"),
             # Sidebar
@@ -265,9 +265,6 @@ if __name__ == "__main__":
         slider_value_5,
         slider_value_6,
     ):
-        # Access the current data stored in the 'filtered-data-store'
-        # without triggering the callback when the store changes
-
         # Position Selector
         filtered_df = DATASETS[selected_position]
 
@@ -320,22 +317,51 @@ if __name__ == "__main__":
         Input("position-dropdown", "value"),
     )
     def update_stats_names(position):
-        return "stat1", "stat2", "stat3", "stat4", "stat5", "stat6"
+        stats = config.STATS[position]
+        return stats[0], stats[1], stats[2], stats[3], stats[4], stats[5]
 
     # __________________________________ Player Card Update __________________________________
     # The selected player makes the following parts of the card change: name, age, country, club, continent, position
+    @app.callback(
+        [
+            Output("player-name", "children"),
+            Output("player-age", "children"),
+            Output("player-nationality", "children"),
+            Output("player-continent", "children"),
+            Output("player-club", "children"),
+            Output("player-position", "children"),
+            Output("player-minutes", "children"),
+        ],
+        [
+            Input("filtered-data-store", "data"),
+            Input("selected-player", "data"),
+        ],
+    )
+    def update_player_card(data, selected_player):
+        # Update player card values based on the dataset
+        # For example, you can fetch data from a database or another external source here
+        # For demonstration, I'm using the sample_data dictionary
 
-    # @app.callback(
-    #     Output("player-card", "figure"),
-    #     Input("filtered-data-store", "data")
-    # )
-    #
-    # def update_player_card(data):
-    #
-    #     df = pd.DataFrame(data)
-    #
-    #     pass
-    # )
+        df = pd.DataFrame(data)
+        df = df[df["player"] == selected_player]
+
+        player_name = "Name: " + df["player"]
+        player_age = "Age: " + str(df["age"].iloc[0])
+        player_nationality = "Nationality: " + df["team"]
+        player_continent = "Continent: " + df["team_cont"]
+        player_club = "Club: " + df["club"]
+        player_position = "Position: " + df["position"]
+        player_minutes = "Matches: " + str(df["minutes_90s"].iloc[0])
+
+        return (
+            player_name,
+            player_age,
+            player_nationality,
+            player_continent,
+            player_club,
+            player_position,
+            player_minutes,
+        )
 
     # __________________________________ Swarm Plot Update __________________________________
     @app.callback(
@@ -343,17 +369,30 @@ if __name__ == "__main__":
         Input("filtered-data-store", "data"),
     )
     def update_swarm_plot(data):
-        df = pd.DataFrame(data)
+        if len(data) == 0:
+            fig = px.strip(
+                {
+                    "overall_score": [],
+                },
+                x="overall_score",
+                # y="team",
+                # height=400,
+                # width=800,
+                stripmode="overlay",
+                # hover_data=["player", "position"],
+            )
+        else:
+            df = pd.DataFrame(data)
 
-        fig = px.strip(
-            df,
-            x="overall_score",
-            # y="team",
-            # height=400,
-            # width=800,
-            stripmode="overlay",
-            hover_data=["player", "position"],
-        )
+            fig = px.strip(
+                df,
+                x="overall_score",
+                # y="team",
+                # height=400,
+                # width=800,
+                stripmode="overlay",
+                hover_data=["player", "position"],
+            )
 
         fig.update_layout(
             xaxis=dict(
@@ -384,6 +423,23 @@ if __name__ == "__main__":
         ],
     )
     def update_parallel_coordinates_chart(data, position):
+        if len(data) == 0:
+            return go.Figure(
+                data=go.Parcoords(
+                    line_color="blue",
+                    dimensions=[
+                        dict(
+                            range=[
+                                0,
+                                100,
+                            ],
+                            label="",
+                            values=[],
+                        )
+                        for i in range(6)  # Iterate over indices from 0 to 5
+                    ],
+                )
+            )
         df = pd.DataFrame(data)
         pos = position
 
