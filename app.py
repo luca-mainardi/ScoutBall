@@ -52,6 +52,7 @@ if __name__ == "__main__":
         children=[
             # Filtered Dataset
             dcc.Store(id="filtered-data-store", data=df_attackers.to_dict("records")),
+            dcc.Store(id="selected-player", data={"player": ""}),
             # Background
             html.Div(className="absolute w-full bg-blue-500 min-h-75"),
             # Sidebar
@@ -84,9 +85,63 @@ if __name__ == "__main__":
     # __________________________________ Dataset Filtering __________________________________
 
     @app.callback(
+        Output("stat-1-slider", "min"),
+        Output("stat-1-slider", "max"),
+        Output("stat-1-slider", "value"),
+        Input("position-dropdown", "value"),
+    )
+    def update_slider1(position):
+        df = DATASETS[position]
+        min_value = df[config.STATS[position][0]].min()
+        print(min_value)
+        max_value = df[config.STATS[position][0]].max()
+        print(max_value)
+        return min_value, max_value, [min_value, max_value]
 
+    @app.callback(
+        Output("stat-2-slider", "min"),
+        Output("stat-2-slider", "max"),
+        Output("stat-2-slider", "value"),
+        Input("position-dropdown", "value"),
+    )
+    def update_slider2(position):
+        df = DATASETS[position]
+        min_value = df[config.STATS[position][1]].min()
+        print(min_value)
+        max_value = df[config.STATS[position][1]].max()
+        print(max_value)
+        return min_value, max_value, [min_value, max_value]
+
+    @app.callback(
+        Output("stat-3-slider", "min"),
+        Output("stat-3-slider", "max"),
+        Output("stat-3-slider", "value"),
+        Input("position-dropdown", "value"),
+    )
+    def update_slider3(position):
+        df = DATASETS[position]
+        min_value = df[config.STATS[position][2]].min()
+        print(min_value)
+        max_value = df[config.STATS[position][2]].max()
+        print(max_value)
+        return min_value, max_value, [min_value, max_value]
+
+    @app.callback(
+        Output("stat-4-slider", "min"),
+        Output("stat-4-slider", "max"),
+        Output("stat-4-slider", "value"),
+        Input("position-dropdown", "value"),
+    )
+    def update_slider4(position):
+        df = DATASETS[position]
+        min_value = df[config.STATS[position][3]].min()
+        print(min_value)
+        max_value = df[config.STATS[position][3]].max()
+        print(max_value)
+        return min_value, max_value, [min_value, max_value]
+
+    @app.callback(
         Output("filtered-data-store", "data"),
-
         [
             Input("position-dropdown", "value"),
             Input("nationality-dropdown", "value"),
@@ -150,9 +205,7 @@ if __name__ == "__main__":
         Input("filtered-data-store", "data"),
     )
     def update_swarm_plot(data):
-
         df = pd.DataFrame(data)
-
 
         fig = px.strip(
             df,
@@ -189,10 +242,9 @@ if __name__ == "__main__":
         [
             Input("filtered-data-store", "data"),
             Input("position-dropdown", "value"),
-        ]
+        ],
     )
     def update_parallel_coordinates_chart(data, position):
-
         df = pd.DataFrame(data)
         pos = position
 
@@ -201,12 +253,15 @@ if __name__ == "__main__":
                 line_color="blue",
                 dimensions=[
                     dict(
-                        range=[min(df[config.STATS[pos][i]]), max(df[config.STATS[pos][i]])],
+                        range=[
+                            min(df[config.STATS[pos][i]]),
+                            max(df[config.STATS[pos][i]]),
+                        ],
                         label=config.STATS[pos][i],
                         values=df[config.STATS[pos][i]],
                     )
                     for i in range(6)  # Iterate over indices from 0 to 5
-                ]
+                ],
             )
         )
 
@@ -285,8 +340,6 @@ if __name__ == "__main__":
 
         # Return an empty list to clear the selected values
         return []
-
-
 
     app.run_server(debug=True)
     # app.run_server(debug=False, dev_tools_ui=False)
