@@ -9,7 +9,7 @@ import plotly.graph_objs as go
 from dash import dash_table, dcc, html
 from dash.dependencies import Input, Output, State
 
-import jbi100_app.config
+import jbi100_app.config as config
 from jbi100_app.main import app
 from jbi100_app.views.choropleth_map import build_choropleth_map
 from jbi100_app.views.parallel_coordinates_chart import build_parallel_coordinates_chart
@@ -84,7 +84,9 @@ if __name__ == "__main__":
     # __________________________________ Dataset Filtering __________________________________
 
     @app.callback(
+
         Output("filtered-data-store", "data"),
+
         [
             Input("position-dropdown", "value"),
             Input("nationality-dropdown", "value"),
@@ -130,19 +132,32 @@ if __name__ == "__main__":
     # __________________________________ Player Card Update __________________________________
     # The selected player makes the following parts of the card change: name, age, country, club, continent, position
 
+    # @app.callback(
+    #     Output("player-card", "figure"),
+    #     Input("filtered-data-store", "data")
+    # )
+    #
+    # def update_player_card(data):
+    #
+    #     df = pd.DataFrame(data)
+    #
+    #     pass
+    # )
+
     # __________________________________ Swarm Plot Update __________________________________
     @app.callback(
         Output("swarm-plot", "figure"),
         Input("filtered-data-store", "data"),
     )
     def update_swarm_plot(data):
-        df = px.data.tips()
-        df_plot = df[df.day == "Sat"]
+
+        df = pd.DataFrame(data)
+
 
         fig = px.strip(
-            df_plot,
-            x="total_bill",
-            y="day",
+            df,
+            x="age",
+            # y="team",
             # height=400,
             # width=800,
             stripmode="overlay",
@@ -171,10 +186,31 @@ if __name__ == "__main__":
     # __________________________________ Parallel Coordinates Chart Update __________________________________
     @app.callback(
         Output("parallel-coord-chart", "figure"),
-        Input("filtered-data-store", "data"),
+        [
+            Input("filtered-data-store", "data"),
+            Input("position-dropdown", "value"),
+        ]
     )
-    def update_parallel_coordinates_chart(data):
-        pass
+    def update_parallel_coordinates_chart(data, position):
+
+        df = pd.DataFrame(data)
+        pos = position
+
+        figure = go.Figure(
+            data=go.Parcoords(
+                line_color="blue",
+                dimensions=[
+                    dict(
+                        range=[min(df[config.STATS[pos][i]]), max(df[config.STATS[pos][i]])],
+                        label=config.STATS[pos][i],
+                        values=df[config.STATS[pos][i]],
+                    )
+                    for i in range(6)  # Iterate over indices from 0 to 5
+                ]
+            )
+        )
+
+        return figure
 
     # __________________________________ Swarm plot and parallel coordinates selection __________________________________
 
@@ -250,481 +286,7 @@ if __name__ == "__main__":
         # Return an empty list to clear the selected values
         return []
 
-    # # Callback scatterplot
-    # @app.callback(
-    #     Output(component_id="scatter-plot", component_property="figure"),
-    #     [
-    #         Input(component_id="switches-input", component_property="value"),
-    #         Input(component_id="range-slider-1", component_property="value"),
-    #         Input(component_id="x-axis-dropdown", component_property="value"),
-    #         Input(component_id="y-axis-dropdown", component_property="value"),
-    #     ],
-    # )
-    # def update_scatter_plot(switches_list, slider_range, x_value, y_value):
-    #     # df = df_outfield_players if 0 in switches_list else df_outfield_players
 
-    #     # goal_keepers_selected
-    #     if 0 in switches_list:
-    #         df = df_player_goalkeepers
-    #     else:
-    #         df = df_outfield_players
-
-    #     low, high = slider_range
-
-    #     mask = (df["age"] > low) & (df["age"] < high)
-
-    #     # Dropdown filter
-    #     filtered_data = df[mask]
-
-    #     fig = px.scatter(
-    #         filtered_data,
-    #         x=x_value,
-    #         y=y_value,
-    #         color="position",
-    #         hover_data=["player"],
-    #     )
-
-    #     fig.update_layout(
-    #         xaxis_title=x_value,
-    #         yaxis_title=y_value,  # Update with the selected option
-    #     )
-
-    #     return fig
-
-    # # __________________________________ Bar chart Update __________________________________
-    # @app.callback(
-    #     Output(component_id="double-bar-chart", component_property="figure"),
-    #     [
-    #         Input(component_id="switches-input", component_property="value"),
-    #         Input(component_id="scatter-plot", component_property="hoverData"),
-    #     ],
-    # )
-    # def update_bar_chart(switches_list, selected_player):
-    #     if selected_player is not None:
-    #         if 0 in switches_list:
-    #             df = df_player_goalkeepers
-    #             stats_positive = [
-    #                 category["label"] for category in config.GOALKEEPERS_POSITIVE_STATS
-    #             ]
-    #             stats_negative = [
-    #                 category["label"] for category in config.GOALKEEPERS_NEGATIVE_STATS
-    #             ]
-    #             labels_positive = [
-    #                 category["category"] for category in config.GOALKEEPERS_POSITIVE_STATS
-    #             ]
-    #             labels_negative = [
-    #                 category["category"] for category in config.GOALKEEPERS_NEGATIVE_STATS
-    #             ]
-
-    #         else:
-    #             df = df_outfield_players
-    #             stats_positive = [
-    #                 category["label"] for category in config.OUTFIELD_POSITIVE_STATS
-    #             ]
-    #             stats_negative = [
-    #                 category["label"] for category in config.OUTFIELD_NEGATIVE_STATS
-    #             ]
-    #             labels_positive = [
-    #                 category["category"] for category in config.OUTFIELD_POSITIVE_STATS
-    #             ]
-    #             labels_negative = [
-    #                 category["category"] for category in config.OUTFIELD_NEGATIVE_STATS
-    #             ]
-
-    #         player_name = selected_player["points"][0]["customdata"][0]
-    #         filtered_df = df[df.player == player_name]
-    #         values_positive = [int(filtered_df[label]) for label in stats_positive]
-    #         values_negative = [-int(filtered_df[label]) for label in stats_negative]
-    #     else:
-    #         labels_negative = []
-    #         values_negative = []
-    #         labels_positive = []
-    #         values_positive = []
-    #         player_name = ""
-    #     figure = {
-    #         "data": [
-    #             # Red bar
-    #             go.Bar(
-    #                 y=labels_negative,
-    #                 x=values_negative,
-    #                 orientation="h",
-    #                 name="Failed",
-    #                 marker=dict(color="red"),
-    #             ),
-    #             # Green Bar
-    #             go.Bar(
-    #                 y=labels_positive,
-    #                 x=values_positive,
-    #                 orientation="h",
-    #                 name="Completed",
-    #                 marker=dict(color="green"),
-    #             ),
-    #         ],
-    #         "layout": go.Layout(
-    #             title=player_name,
-    #             barmode="relative",
-    #             # yaxis=dict(title="Categorie"),
-    #             # xaxis=dict(title="Valori"),
-    #         ),
-    #     }
-    #     return figure
-
-    # # ________________________________________ Card 1 ________________________________________
-
-    # @app.callback(
-    #     [
-    #         Output(component_id="matches-played-card", component_property="children"),
-    #         Output(component_id="card1-average", component_property="children"),
-    #     ],
-    #     [
-    #         Input(component_id="switches-input", component_property="value"),
-    #         Input(component_id="scatter-plot", component_property="hoverData"),
-    #     ],
-    # )
-    # def update_card_1(switches_list, selected_player):
-    #     if selected_player is not None:
-    #         if 0 in switches_list:
-    #             df = df_player_goalkeepers
-    #         else:
-    #             df = df_outfield_players
-
-    #         player_name = selected_player["points"][0]["customdata"][0]
-    #         filtered_df = df[df.player == player_name]
-    #         games = filtered_df["games"].iloc[0]
-
-    #         average = df["games"].mean()
-    #         diff_pct = round(((games - average) / average) * 100)
-
-    #         if diff_pct >= 0:
-    #             children = [
-    #                 html.Span(
-    #                     f"+{diff_pct}% ",
-    #                     className=" font-bold leading-none text-emerald-500",
-    #                 ),
-    #                 "above average",
-    #             ]
-    #         else:
-    #             children = [
-    #                 html.Span(
-    #                     f"{diff_pct}% ",
-    #                     className=" font-bold leading-none text-red-600",
-    #                 ),
-    #                 "under average",
-    #             ]
-
-    #         return f"{games}", children
-    #     else:
-    #         return None, None
-
-    # # ________________________________________ Card 2 ________________________________________
-
-    # @app.callback(
-    #     [
-    #         Output(component_id="minutes-played-card", component_property="children"),
-    #         Output(component_id="card2-average", component_property="children"),
-    #     ],
-    #     [
-    #         Input(component_id="switches-input", component_property="value"),
-    #         Input(component_id="scatter-plot", component_property="hoverData"),
-    #     ],
-    # )
-    # def update_card_2(switches_list, selected_player):
-    #     if selected_player is not None:
-    #         if 0 in switches_list:
-    #             df = df_player_goalkeepers
-    #         else:
-    #             df = df_outfield_players
-
-    #         player_name = selected_player["points"][0]["customdata"][0]
-    #         filtered_df = df[df.player == player_name]
-    #         minutes = filtered_df["minutes"].iloc[0]
-
-    #         average = df["minutes"].mean()
-    #         diff_pct = round(((minutes - average) / average) * 100)
-
-    #         if diff_pct >= 0:
-    #             children = [
-    #                 html.Span(
-    #                     f"+{diff_pct}% ",
-    #                     className=" font-bold leading-none text-emerald-500",
-    #                 ),
-    #                 "above average",
-    #             ]
-    #         else:
-    #             children = [
-    #                 html.Span(
-    #                     f"{diff_pct}% ",
-    #                     className=" font-bold leading-none text-red-600",
-    #                 ),
-    #                 "under average",
-    #             ]
-
-    #         return f"{minutes}", children
-    #     else:
-    #         return None, None
-
-    # # ________________________________________ Card 3 ________________________________________
-
-    # # Label
-    # @app.callback(
-    #     [
-    #         Output(component_id="card3-label", component_property="children"),
-    #     ],
-    #     [
-    #         Input(component_id="switches-input", component_property="value"),
-    #     ],
-    # )
-    # def update_card_3_label(switches_list):
-    #     if 0 in switches_list:
-    #         return ["Clean Sheets"]
-    #     else:
-    #         return ["Goal Assists"]
-
-    # # Value
-    # @app.callback(
-    #     [
-    #         Output(component_id="goal-assists-card", component_property="children"),
-    #         Output(component_id="card3-average", component_property="children"),
-    #     ],
-    #     [
-    #         Input(component_id="switches-input", component_property="value"),
-    #         Input(component_id="scatter-plot", component_property="hoverData"),
-    #     ],
-    # )
-    # def update_card_3_value(switches_list, selected_player):
-    #     if selected_player is not None:
-    #         if 0 in switches_list:
-    #             df = df_player_goalkeepers
-    #             stat = "gk_clean_sheets"
-    #         else:
-    #             df = df_outfield_players
-    #             stat = "goals_assists"
-
-    #         player_name = selected_player["points"][0]["customdata"][0]
-    #         filtered_df = df[df.player == player_name]
-
-    #         value = filtered_df[stat].iloc[0]
-
-    #         average = df[stat].mean()
-
-    #         diff_pct = round(((value - average) / average) * 100)
-
-    #         if diff_pct >= 0:
-    #             children = [
-    #                 html.Span(
-    #                     f"+{diff_pct}% ",
-    #                     className=" font-bold leading-none text-emerald-500",
-    #                 ),
-    #                 "above average",
-    #             ]
-    #         else:
-    #             children = [
-    #                 html.Span(
-    #                     f"{diff_pct}% ",
-    #                     className=" font-bold leading-none text-red-600",
-    #                 ),
-    #                 "under average",
-    #             ]
-
-    #         return f"{value}", children
-    #     else:
-    #         return None, None
-
-    # # ________________________________________ Card 4 ________________________________________
-    # @app.callback(
-    #     [
-    #         Output(component_id="yellow-cards-card", component_property="children"),
-    #         Output(component_id="card4-average", component_property="children"),
-    #     ],
-    #     [
-    #         Input(component_id="switches-input", component_property="value"),
-    #         Input(component_id="scatter-plot", component_property="hoverData"),
-    #     ],
-    # )
-    # def update_card_4(switches_list, selected_player):
-    #     if selected_player is not None:
-    #         if 0 in switches_list:
-    #             df = df_player_goalkeepers
-    #             stat = "gk_clean_sheets"
-    #         else:
-    #             df = df_outfield_players
-    #             stat = "goals_assists"
-
-    #         player_name = selected_player["points"][0]["customdata"][0]
-    #         filtered_df = df[df.player == player_name]
-    #         cards_yellow = filtered_df["cards_yellow"].iloc[0]
-
-    #         average = df["cards_yellow"].mean()
-    #         diff_pct = round(((cards_yellow - average) / average) * 100)
-
-    #         if diff_pct >= 0:
-    #             children = [
-    #                 html.Span(
-    #                     f"+{diff_pct}% ",
-    #                     className=" font-bold leading-none text-emerald-500",
-    #                 ),
-    #                 "above average",
-    #             ]
-    #         else:
-    #             children = [
-    #                 html.Span(
-    #                     f"{diff_pct}% ",
-    #                     className=" font-bold leading-none text-red-600",
-    #                 ),
-    #                 "under average",
-    #             ]
-
-    #         return f"{cards_yellow}", children
-    #     else:
-    #         return None, None
-
-    # # ____________________________________Dropdown updates ____________________________________
-
-    # # Update dropdown y-axis values
-    # @app.callback(
-    #     [Output("y-axis-dropdown", "options"), Output("y-axis-dropdown", "value")],
-    #     [Input("switches-input", "value")],
-    # )
-    # def update_y_dropdown_options(switches_list):
-    #     if 0 in switches_list:
-    #         return config.GOALKEEPERS_STATS, "gk_goals_against"
-    #     else:
-    #         return config.OUTFIELD_PLAYERS_STATS, "shots_on_target"
-
-    # # Update dropdown x-axis values
-    # @app.callback(
-    #     [
-    #         Output(component_id="x-axis-dropdown", component_property="options"),
-    #         Output(component_id="x-axis-dropdown", component_property="value"),
-    #     ],
-    #     [Input(component_id="switches-input", component_property="value")],
-    # )
-    # def update_x_dropdown_options(switches_list):
-    #     if 0 in switches_list:
-    #         return config.GOALKEEPERS_STATS, "gk_saves"
-    #     else:
-    #         return config.OUTFIELD_PLAYERS_STATS, "tackles_won"
-
-    # @app.callback(
-    #     Output("choropleth-map", "figure"), Input("choropleth-map", "relayoutData")
-    # )
-    # def update_choropleth_map(relayout_data):
-    #     merged = world_shapefile  # Replace with your merged GeoPandas DataFrame
-    #     fig, ax = plt.subplots(figsize=(10, 6))
-
-    #     # Your plot code here
-    #     merged[merged.isna().any(axis=1)].plot(ax=ax, color="#fafafa", hatch="///")
-    #     ax.set_title("Your Title", fontdict={"fontsize": 20}, loc="left")
-    #     ax.annotate("Your Description", xy=(0.1, 0.1), size=12, xycoords="figure fraction")
-
-    #     ax.set_axis_off()
-    #     ax.set_xlim([-1.5e7, 1.7e7])
-    #     ax.get_legend().set_bbox_to_anchor((0.12, 0.4))
-
-    #     # Save Matplotlib figure to a BytesIO object
-    #     img_buf = BytesIO()
-    #     fig.savefig(img_buf, format="png")
-    #     img_buf.seek(0)
-
-    #     # Convert the Matplotlib figure to a base64-encoded string
-    #     img_base64 = base64.b64encode(img_buf.read()).decode("utf-8")
-
-    #     # Convert the base64-encoded string to a Plotly figure
-    #     plotly_fig = px.imshow(img_base64)
-
-    #     return plotly_fig
-
-    # @app.callback(Output("swarm-plot", "figure"), Input("swarm-plot", "relayoutData"))
-    # def update_swarm_plot(relayout_data):
-    #     # Create a Swarm plot with Plotly Express
-    #     fig = px.scatter(
-    #         {
-    #             "Player": [f"Player {i}" for i in range(200)],
-    #             "Performance Score": sorted([random.randint(1, 100) for _ in range(200)]),
-    #         },
-    #         x="Performance Score",
-    #         y="Player",
-    #         orientation="h",  # Set orientation to horizontal
-    #         hover_data=["Performance Score"],
-    #         title="Football Players Performance",
-    #         labels={"Performance Score": "Score"},
-    #         width=800,
-    #         height=400,
-    #     )
-
-    #     return fig
-
-    # @app.callback(Output("swarm-plot", "figure"), Input("swarm-plot", "relayoutData"))
-    # def update_swarm_plot(relayout_data):
-    #     # Create a Swarm plot with Plotly Express
-
-    #     df = px.data.tips()
-    #     df_plot = df[df.day == "Sat"]
-
-    #     fig = px.strip(
-    #         df_plot,
-    #         x="total_bill",
-    #         y="day",
-    #         # height=400,
-    #         # width=800,
-    #         stripmode="overlay",
-    #     )
-
-    #     fig.update_layout(
-    #         xaxis=dict(
-    #             showgrid=True, gridcolor="WhiteSmoke", zerolinecolor="Gainsboro"
-    #         ),
-    #         yaxis=dict(
-    #             showgrid=True, gridcolor="WhiteSmoke", zerolinecolor="Gainsboro"
-    #         ),
-    #     )
-    #     fig.update_layout(plot_bgcolor="white")
-
-    #     fig = (
-    #         fig
-    #         # Make it so there is no gap between the supporting boxes
-    #         .update_layout(boxgap=0)
-    #         # Increase the jitter so it reaches the sides of the boxes
-    #         .update_traces(jitter=1)
-    #     )
-
-    #     return fig
-
-    # df = pd.read_csv('Shap_FI.csv')
-
-    # #values = df.iloc[:,2:].columns
-    # values = df.iloc[:,2:].abs().mean(axis=0).sort_values().index
-    # df_plot = pd.melt(df, id_vars=['transaction_id', 'predictions'], value_vars=values, var_name='Feature', value_name='SHAP')
-
-    # fig = px.strip(df_plot, x='SHAP', y='Feature', color='predictions', stripmode='overlay', height=4000, width=1000)
-    # fig.update_layout(xaxis=dict(showgrid=True, gridcolor='WhiteSmoke', zerolinecolor='Gainsboro'),
-    #               yaxis=dict(showgrid=True, gridcolor='WhiteSmoke', zerolinecolor='Gainsboro')
-    # )
-    # fig.update_layout(plot_bgcolor='white')
-
-    # fig = (
-    #     fig
-    #     # Make it so there is no gap between the supporting boxes
-    #     .update_layout(boxgap=0)
-    #     # Increase the jitter so it reaches the sides of the boxes
-    #     .update_traces(jitter=1)
-    # )
-
-    # fig.write_html('plotly_beeswarm_test.html')
-    # fig.show()
-
-    # @app.callback(
-    #     Output(component_id="parallel-coord-chart", component_property="figure"),
-    #     [
-    #         Input(component_id="range-slider-1", component_property="value"),
-    #     ],
-    # )
-    # def update_scatter_plot(slider_range):
-    #     # df = df_outfield_players if 0 in switches_list else df_outfield_players
-    #     print(slider_range)
-    #     pass
-
-    # _____________________________________________________________________________________________
 
     app.run_server(debug=True)
     # app.run_server(debug=False, dev_tools_ui=False)
