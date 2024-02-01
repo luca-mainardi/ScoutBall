@@ -19,25 +19,39 @@ from jbi100_app.views.sidebar import build_sidebar
 from jbi100_app.views.swarm_plot import build_swarm_plot
 
 if __name__ == "__main__":
-    df_player_goalkeepers = pd.read_csv(
-        "Data/goalkeepers.csv",
+    df_goalkeepers = pd.read_csv(
+        "Data/keepers_data.csv",
         delimiter=",",
     )
-    df_outfield_players = pd.read_csv(
-        "Data/outfield_players.csv",
+    df_defenders = pd.read_csv(
+        "Data/defenders_data.csv",
         delimiter=",",
     )
+    df_midfielders = pd.read_csv(
+        "Data/midfielders_data.csv",
+        delimiter=",",
+    )
+    df_attackers = pd.read_csv(
+        "Data/attackers_data.csv",
+        delimiter=",",
+    )
+
     gdp_data = pd.read_csv(
         "https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv"
     )
+
+    DATASETS = {
+        "GK": df_goalkeepers,
+        "DF": df_defenders,
+        "MF": df_midfielders,
+        "FW": df_attackers,
+    }
 
     app.layout = html.Div(
         className="m-0 font-sans text-base antialiased font-normal leading-default bg-gray-50 text-slate-500",
         children=[
             # Filtered Dataset
-            dcc.Store(
-                id="filtered-data-store", data=df_outfield_players.to_dict("records")
-            ),
+            dcc.Store(id="filtered-data-store", data=df_attackers.to_dict("records")),
             # Background
             html.Div(className="absolute w-full bg-blue-500 min-h-75"),
             # Sidebar
@@ -81,7 +95,7 @@ if __name__ == "__main__":
     )
     def update_filtered_data(
         selected_position,
-        selected_nationalities,
+        selected_nationality,
         slider_age_value,
         slider_value_1,
         slider_value_2,
@@ -94,7 +108,15 @@ if __name__ == "__main__":
         # Access the current data stored in the 'filtered-data-store'
         # without triggering the callback when the store changes
         current_df = pd.DataFrame(current_data)
-        filtered_df = current_df
+
+        # Position Selector
+        filtered_df = DATASETS[selected_position]
+
+        # Nationality Selector
+        if selected_nationality != "All":
+            filtered_df = filtered_df[filtered_df["team"] == selected_nationality]
+
+        # filtered_df = current_df
 
         # Return the updated filtered data to be stored in the 'filtered-data-store'
         return filtered_df.to_dict("records")

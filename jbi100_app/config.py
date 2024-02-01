@@ -35,8 +35,43 @@ NATIONALITIES = [
     "Wales",
 ]
 
-
 OUTFIELD_PLAYERS_STATS = []
+
+STATS = {
+    "gK": [
+        "gk_clean_sheets_pct",
+        "gk_save_pct",
+        "gk_pens_save_pct",
+        "gk_passes_pct_launched",
+        "gk_crosses_stopped_pct",
+        "passes_pct",
+    ],
+    "DF": [
+        "dribble_tackles_pct",
+        "blocked_passes",
+        "blocked_shots",
+        "tackles_won_pct",
+        "aerials_won_pct",
+        "passes_pct",
+    ],
+    "MF": [
+        "tackles",
+        "interceptions",
+        "goals_assists_per90",
+        "passes_pct",
+        "dribbles_completed_pct",
+        "sca_per90",
+    ],
+    "FW": [
+        "tackles_interceptions",
+        "goals_assists_per90",
+        "passes_pct",
+        "sca_per90",
+        "dribbles_completed_pct",
+        "shots_on_target_pct",
+    ],
+}
+
 
 # Not all the attributes are in the original dataset
 GK_STATS = [
