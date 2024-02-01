@@ -9,7 +9,7 @@ import plotly.graph_objs as go
 from dash import dash_table, dcc, html
 from dash.dependencies import Input, Output, State
 
-import jbi100_app.config as config
+import jbi100_app.config
 from jbi100_app.main import app
 from jbi100_app.views.choropleth_map import build_choropleth_map
 from jbi100_app.views.parallel_coordinates_chart import build_parallel_coordinates_chart
@@ -84,16 +84,13 @@ if __name__ == "__main__":
     # __________________________________ Dataset Filtering __________________________________
 
     @app.callback(
-        [
-            Output("filtered-data-store", "data"),
-            Output("age-slider", "value"),
-        ],
+        Output("filtered-data-store", "data"),
         [
             Input("position-dropdown", "value"),
             Input("nationality-dropdown", "value"),
+            Input("age-slider", "value"),
         ]
         + [Input(f"stat-{i}-slider", "value") for i in range(1, 7)],
-        State("filtered-data-store", "data"),
     )
     def update_filtered_data(
         selected_position,
@@ -105,11 +102,9 @@ if __name__ == "__main__":
         slider_value_4,
         slider_value_5,
         slider_value_6,
-        current_data,
     ):
         # Access the current data stored in the 'filtered-data-store'
         # without triggering the callback when the store changes
-        current_df = pd.DataFrame(current_data)
 
         # Position Selector
         filtered_df = DATASETS[selected_position]
@@ -135,32 +130,19 @@ if __name__ == "__main__":
     # __________________________________ Player Card Update __________________________________
     # The selected player makes the following parts of the card change: name, age, country, club, continent, position
 
-    # @app.callback(
-    #     Output("player-card", "figure"),
-    #     Input("filtered-data-store", "data")
-    # )
-    #
-    # def update_player_card(data):
-    #
-    #     df = pd.DataFrame(data)
-    #
-    #     pass
-    # )
-
     # __________________________________ Swarm Plot Update __________________________________
     @app.callback(
         Output("swarm-plot", "figure"),
         Input("filtered-data-store", "data"),
     )
     def update_swarm_plot(data):
-
-        df = pd.DataFrame(data)
-
+        df = px.data.tips()
+        df_plot = df[df.day == "Sat"]
 
         fig = px.strip(
-            df,
-            x="age",
-            # y="team",
+            df_plot,
+            x="total_bill",
+            y="day",
             # height=400,
             # width=800,
             stripmode="overlay",
@@ -189,31 +171,10 @@ if __name__ == "__main__":
     # __________________________________ Parallel Coordinates Chart Update __________________________________
     @app.callback(
         Output("parallel-coord-chart", "figure"),
-        [
-            Input("filtered-data-store", "data"),
-            Input("position-dropdown", "value"),
-        ]
+        Input("filtered-data-store", "data"),
     )
-    def update_parallel_coordinates_chart(data, position):
-
-        df = pd.DataFrame(data)
-        pos = position
-
-        figure = go.Figure(
-            data=go.Parcoords(
-                line_color="blue",
-                dimensions=[
-                    dict(
-                        range=[min(df[config.STATS[pos][i]]), max(df[config.STATS[pos][i]])],
-                        label=config.STATS[pos][i],
-                        values=df[config.STATS[pos][i]],
-                    )
-                    for i in range(6)  # Iterate over indices from 0 to 5
-                ]
-            )
-        )
-
-        return figure
+    def update_parallel_coordinates_chart(data):
+        pass
 
     # __________________________________ Swarm plot and parallel coordinates selection __________________________________
 
