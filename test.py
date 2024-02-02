@@ -1,102 +1,130 @@
 import dash
 import pandas as pd
-import plotly.express as px
+import plotly.graph_objects as go
 from dash import dcc, html
-from dash.dependencies import Input, Output, State
+from dash.dependencies import Input, Output
 
-# Sample data (replace with your own data)
-data = {
-    "Player": ["Player1", "Player2", "Player3", "Player4"],
-    "Stat1": [90, 85, 92, 88],
-    "Stat2": [75, 80, 78, 82],
-    "Stat3": [95, 89, 93, 90],
-}
+# Sample DataFrame
+data = pd.DataFrame(
+    {
+        "Player": [25, 30, 28, 35],
+        "Age": [25, 30, 28, 35],
+        "Height": [170, 165, 180, 175],
+    }
+)
 
-df = pd.DataFrame(data)
-
-# Create a Dash app
+# Dash app
 app = dash.Dash(__name__)
 
-# Define the layout of the app
 app.layout = html.Div(
     [
         dcc.Graph(
-            id="strip-chart",
-            figure={
-                "data": [
-                    {
-                        "x": df["Player"],
-                        "y": df["Stat1"],
-                        "mode": "markers",
-                        "text": df["Player"],
-                    }
-                ],
-                "layout": {"clickmode": "event+select"},
-            },
-            style={"width": "50%", "display": "inline-block"},
+            id="parallel-coordinates", config={"displayModeBar": False}, figure={}
         ),
-        dcc.Graph(
-            id="parallel-coordinates-chart",
-            figure={
-                "data": [
-                    {
-                        "x": df["Player"],
-                        "y": df["Stat1"],
-                        "mode": "lines",
-                        "name": "Stat1",
-                    },
-                    {
-                        "x": df["Player"],
-                        "y": df["Stat2"],
-                        "mode": "lines",
-                        "name": "Stat2",
-                    },
-                    {
-                        "x": df["Player"],
-                        "y": df["Stat3"],
-                        "mode": "lines",
-                        "name": "Stat3",
-                    },
-                ],
-                "layout": {"clickmode": "event+select"},
-            },
-            style={"width": "50%", "height": "400px", "display": "inline-block"},
-        ),
+        html.Div(id="selected-data-output"),
     ]
 )
 
 
-# Callback to update selected points and lines
+# Callback to display selected data
 @app.callback(
-    [Output("strip-chart", "figure"), Output("parallel-coordinates-chart", "figure")],
-    [
-        Input("strip-chart", "selectedData"),
-        Input("parallel-coordinates-chart", "clickData"),
-    ],
-    [State("strip-chart", "figure"), State("parallel-coordinates-chart", "figure")],
+    Output("selected-data-output", "children"),
+    Input("parallel-coordinates", "restyleData"),
 )
-def update_selection(
-    strip_selected_data, parallel_click_data, strip_chart_figure, parallel_chart_figure
-):
-    updated_strip_figure = strip_chart_figure.copy()
-    updated_parallel_figure = parallel_chart_figure.copy()
-
-    if strip_selected_data:
-        selected_players = [point["text"] for point in strip_selected_data["points"]]
-        updated_strip_figure["data"][0]["marker"]["size"] = [
-            20 if player in selected_players else 10 for player in df["Player"]
+def display_selected_data(restyleData):
+    print(restyleData)
+    if restyleData and "line.color" in restyleData[0]:
+        selected_color = restyleData[0]["line.color"]
+        selected_indices = [
+            i for i, color in enumerate(selected_color) if color == "blue"
         ]
-
-    if parallel_click_data:
-        selected_player = parallel_click_data["points"][0]["x"]
-        for trace in updated_parallel_figure["data"]:
-            trace["line"]["width"] = [
-                4 if player == selected_player else 1 for player in df["Player"]
+        selected_players = data.iloc[selected_indices]
+        return html.Table(
+            [
+                html.Thead(html.Tr([html.Th(col) for col in selected_players.columns])),
+                html.Tbody(
+                    [
+                        html.Tr(
+                            [
+                                html.Td(selected_players.iloc[i][col])
+                                for col in selected_players.columns
+                            ]
+                        )
+                        for i in range(len(selected_players))
+                    ]
+                ),
             ]
+        )
+    else:
+        return "No data selected"
 
-    return updated_strip_figure, updated_parallel_figure
+
+# Update parallel coordinates chart
+@app.callback(
+    Output("parallel-coordinates", "figure"),
+    Input("parallel-coordinates", "restyleData"),
+)
+def update_parallel_coordinates(restyleData):
+    if restyleData and "line.color" in restyleData[0]:
+        selected_color = restyleData[0]["line.color"]
+        fig = go.Figure(
+            data=go.Parcoords(
+                line=dict(
+                    color=data["Age"],
+                    colorscale="Viridis",
+                    showscale=True,
+                    cmin=0,
+                    cmax=data["Age"].max(),
+                ),
+                dimensions=[
+                    dict(
+                        range=[25, 35],
+                        label="Age",
+                        values=data["Age"],
+                        tickvals=[25, 30, 35],
+                    ),
+                    dict(
+                        range=[165, 180],
+                        label="Height",
+                        values=data["Height"],
+                        tickvals=[165, 170, 175, 180],
+                    ),
+                    dict(label="Player", values=data["Player"]),
+                ],
+                line_color=selected_color,  # Update line color based on selection
+                multiselect=False,
+            )
+        )
+        return fig
+    else:
+        fig = go.Figure(
+            data=go.Parcoords(
+                line=dict(
+                    color=data["Age"],
+                    colorscale="Viridis",
+                    showscale=True,
+                    cmin=0,
+                    cmax=data["Age"].max(),
+                ),
+                dimensions=[
+                    dict(
+                        range=[25, 35],
+                        label="Age",
+                        values=data["Age"],
+                        tickvals=[25, 30, 35],
+                    ),
+                    dict(
+                        range=[165, 180],
+                        label="Height",
+                        values=data["Height"],
+                        tickvals=[165, 170, 175, 180],
+                    ),
+                    dict(label="Player", values=data["Player"]),
+                ],
+            )
+        )
+        return fig
 
 
-# Run the app
 if __name__ == "__main__":
     app.run_server(debug=True)

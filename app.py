@@ -52,7 +52,7 @@ if __name__ == "__main__":
         children=[
             # Filtered Dataset
             dcc.Store(id="filtered-data-store", data=df_attackers.to_dict("records")),
-            dcc.Store(id="selected-player", data="Gareth Bale"),
+            dcc.Store(id="selected-player", data=[""]),
             # Background
             html.Div(className="absolute w-full bg-blue-500 min-h-75"),
             # Sidebar
@@ -341,17 +341,27 @@ if __name__ == "__main__":
         # Update player card values based on the dataset
         # For example, you can fetch data from a database or another external source here
         # For demonstration, I'm using the sample_data dictionary
+        print(selected_player)
+        if selected_player[0] == "":
+            player_name = "Click on a player to select"
+            player_age = "Age: "
+            player_nationality = "Nationality: "
+            player_continent = "Continent: "
+            player_club = "Club: "
+            player_position = "Position: "
+            player_minutes = "Matches: "
 
-        df = pd.DataFrame(data)
-        df = df[df["player"] == selected_player]
+        else:
+            df = pd.DataFrame(data)
+            df = df[df["player"] == selected_player]
 
-        player_name = "Name: " + df["player"]
-        player_age = "Age: " + str(df["age"].iloc[0])
-        player_nationality = "Nationality: " + df["team"]
-        player_continent = "Continent: " + df["team_cont"]
-        player_club = "Club: " + df["club"]
-        player_position = "Position: " + df["position"]
-        player_minutes = "Matches: " + str(df["minutes_90s"].iloc[0])
+            player_name = "Name: " + df["player"]
+            player_age = "Age: " + str(df["age"].iloc[0])
+            player_nationality = "Nationality: " + df["team"]
+            player_continent = "Continent: " + df["team_cont"]
+            player_club = "Club: " + df["club"]
+            player_position = "Position: " + df["position"]
+            player_minutes = "Matches: " + str(df["minutes_90s"].iloc[0])
 
         return (
             player_name,
@@ -369,17 +379,14 @@ if __name__ == "__main__":
         Input("filtered-data-store", "data"),
     )
     def update_swarm_plot(data):
+        # If filtered dataset is empty
         if len(data) == 0:
             fig = px.strip(
                 {
                     "overall_score": [],
                 },
                 x="overall_score",
-                # y="team",
-                # height=400,
-                # width=800,
                 stripmode="overlay",
-                # hover_data=["player", "position"],
             )
         else:
             df = pd.DataFrame(data)
@@ -441,6 +448,7 @@ if __name__ == "__main__":
                 )
             )
         df = pd.DataFrame(data)
+        original_df = DATASETS[position]
         pos = position
 
         figure = go.Figure(
@@ -449,8 +457,8 @@ if __name__ == "__main__":
                 dimensions=[
                     dict(
                         range=[
-                            min(df[config.STATS[pos][i]]),
-                            max(df[config.STATS[pos][i]]),
+                            min(original_df[config.STATS[pos][i]]),
+                            max(original_df[config.STATS[pos][i]]),
                         ],
                         label=config.STATS[pos][i],
                         values=df[config.STATS[pos][i]],
@@ -465,6 +473,55 @@ if __name__ == "__main__":
     # __________________________________ Swarm plot and parallel coordinates selection __________________________________
 
     # figure needs "layout": {"clickmode": "event+select"},
+
+    # Click on points selects player
+    @app.callback(
+        [Output("selected-player", "data", allow_duplicate=True)],
+        [
+            Input("swarm-plot", "clickData"),
+        ],
+        State("swarm-plot", "figure"),
+        # [State("swarm-plot", "figure"), State("parallel-coord-chart", "figure")],
+        prevent_initial_call=True,
+    )
+    def swarm_plot_click(
+        clickData,
+        strip_chart_figure,
+    ):
+        if clickData is not None:
+            point_index = clickData["points"][0]["pointIndex"]
+            print(clickData)
+            # player = data.loc[point_index, 'Player']
+            # age = data.loc[point_index, 'Age']
+            # return f"Clicked point: Player - {player}, Age - {age}"
+            print(clickData["points"][0]["customdata"][0])
+            return [clickData["points"][0]["customdata"][0]]
+        else:
+            return ["Click on a point to view information"]
+
+    # Click on lines of parallel coordinates selects player
+    @app.callback(
+        [Output("selected-player", "data", allow_duplicate=True)],
+        [
+            Input("parallel-coord-chart", "selectedpoints"),
+        ],
+        State("parallel-coord-chart", "figure"),
+        prevent_initial_call=True,
+    )
+    def parallel_coordinates_click(
+        clickData,
+        strip_chart_figure,
+    ):
+        if clickData is not None:
+            point_index = clickData["points"][0]["pointIndex"]
+            print(clickData)
+            # player = data.loc[point_index, 'Player']
+            # age = data.loc[point_index, 'Age']
+            # return f"Clicked point: Player - {player}, Age - {age}"
+            print(clickData["points"][0]["customdata"][0])
+            return [clickData["points"][0]["customdata"][0]]
+        else:
+            return ["Click on a point to view information"]
 
     @app.callback(
         [
