@@ -7,12 +7,13 @@ import plotly.express as px
 import plotly.graph_objs as go
 from dash import dash_table, dcc, html
 from dash.dependencies import Input, Output
+import jbi100_app.functions as functions
 
 import jbi100_app.config as config
 
-gdp_data = pd.read_csv(
-    "https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv"
-)
+gdp_data = pd.read_csv('Data/midfielders_data.csv')
+country_counts = gdp_data.groupby('team').size().reset_index(name='num_players')
+
 
 colorscale = [[0, 'rgb(239, 246, 255)'], [1, 'rgb(94, 114, 228)']]  # Light to dark from low to high values
 
@@ -31,16 +32,16 @@ def build_choropleth_map():
                                 id="choropleth-map",
                                 figure=go.Figure(
                                     data=go.Choropleth(
-                                        locations=gdp_data["CODE"],
-                                        z=gdp_data["GDP (BILLIONS)"],
-                                        text=gdp_data["COUNTRY"],
+                                        locations=country_counts["team"].apply(functions.country_to_code),
+                                        z=country_counts["num_players"],
+                                        text=country_counts["team"],
                                         colorscale=colorscale,
                                         autocolorscale=False,
                                         reversescale=False,
                                         marker_line_color="grey",  # Set to 'white' to remove black border
                                         marker_line_width=0.5,
-                                        colorbar_tickprefix="$",
-                                        colorbar_title="GDP<br>Billions US$",
+                                        # colorbar_tickprefix="No of players",
+                                        colorbar_title="Number of players",
                                     ),
                                     layout=go.Layout(
                                         margin=dict(

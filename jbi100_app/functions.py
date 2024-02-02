@@ -14,6 +14,54 @@ def change_age(age_column_value):
     return int(age)
 
 
+def country_to_code(country_name):
+    """
+    Receives country name and converts it to country code
+    :param country_name
+    :return: country_code
+    """
+
+    country_name_to_code = {
+        'Argentina': 'ARG',
+        'Australia': 'AUS',
+        'Belgium': 'BEL',
+        'Brazil': 'BRA',
+        'Cameroon': 'CMR',
+        'Canada': 'CAN',
+        'Costa Rica': 'CRI',
+        'Croatia': 'HRV',
+        'Denmark': 'DNK',
+        'Ecuador': 'ECU',
+        'England': 'ENG',
+        'France': 'FRA',
+        'Germany': 'DEU',
+        'Ghana': 'GHA',
+        'Iran': 'IRN',
+        'IR Iran': 'IRN',
+        'Japan': 'JPN',
+        'Korea Republic': 'KOR',
+        'Mexico': 'MEX',
+        'Morocco': 'MAR',
+        'Netherlands': 'NLD',
+        'Poland': 'POL',
+        'Portugal': 'PRT',
+        'Qatar': 'QAT',
+        'Saudi Arabia': 'SAU',
+        'Senegal': 'SEN',
+        'Serbia': 'SRB',
+        'Spain': 'ESP',
+        'Switzerland': 'CHE',
+        'Tunisia': 'TUN',
+        'United States': 'USA',
+        'Uruguay': 'URY',
+        'Wales': 'WAL'
+    }
+
+    country_code = country_name_to_code.get(country_name, 'Unknown')
+
+    return country_code
+
+
 def country_to_continent(country_name):
     """
     Receives country name and converts it to continent name where it belongs to
