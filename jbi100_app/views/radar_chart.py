@@ -1,15 +1,7 @@
-import dash
 import dash_bootstrap_components as dbc
-import geopandas as gpd
-import matplotlib.pyplot as plt
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objs as go
-from dash import dash_table, dcc, html
-from dash.dependencies import Input, Output
-
-# from Data import midfielders_data
-import jbi100_app.config as config
+from dash import dcc, html
 
 
 def build_radar_chart():
@@ -21,12 +13,8 @@ def build_radar_chart():
                 className="w-full max-w-full mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/2",
                 children=[
                     html.Div(
-                        className="relative flex flex-col min-w-0 break-words",  # bg-white shadow-xl rounded-2xl bg-clip-border
+                        className="relative flex flex-col min-w-0 break-words",
                         children=[
-                            # html.P(
-                            #     "Minutes played\nlksdjfòkdsljf\nldskòjf\nMinutes played\nlksdjfòkdsljf\nldskòjf",
-                            #     className="mb-0 font-sans text-lg font-semibold leading-none uppercase",
-                            # ),
                             dcc.Graph(
                                 id="radar-chart",
                                 className="mb-0",
@@ -53,18 +41,6 @@ def build_radar_chart():
                                     theta="theta",
                                     line_close=True,
                                 ),
-                                # style={
-                                #     # "flex": "1",  # Occupy 50% of the width
-                                #     "width": "100%",
-                                #     "height": "100%",
-                                #     "padding-top": "5px",
-                                #     "padding-bottom": "5px",
-                                #     "padding-right": "4px",
-                                #     "padding-left": "4px",
-                                #     "margin": "auto",
-                                #     "border": "0px",  # Set border to zero
-                                #     "border-radius": "1rem",
-                                # },
                             ),
                         ],
                     )
@@ -75,7 +51,7 @@ def build_radar_chart():
                 className="w-full max-w-full px-3 py-3 mb-6 sm:w-1/2 sm:flex-none xl:mb-0 xl:w-1/4",
                 children=[
                     html.Div(
-                        className="relative flex flex-col min-w-0 break-words",  # bg-white shadow-xl rounded-2xl bg-clip-border
+                        className="relative flex flex-col min-w-0 break-words",
                         children=[
                             html.P(
                                 "Compare Players",
@@ -84,15 +60,7 @@ def build_radar_chart():
                             dcc.Dropdown(
                                 id="player-compare-dropdown",
                                 className="mb-6",
-                                # options=[
-                                #     {
-                                #         "label": f"player {i}",
-                                #         "value": f"player {i}",
-                                #     }
-                                #     for i in range(100)
-                                # ],
                                 options=[],
-                                # value=["player 1"],  # Default selected values
                                 value=[],
                                 multi=True,
                                 searchable=True,  # Enable search functionality

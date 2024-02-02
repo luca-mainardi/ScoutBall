@@ -1,23 +1,6 @@
-import dash
-import dash_bootstrap_components as dbc
-import geopandas as gpd
-import matplotlib.pyplot as plt
 import pandas as pd
-import plotly.express as px
 import plotly.graph_objs as go
-from dash import dash_table, dcc, html
-from dash.dependencies import Input, Output
-
-import jbi100_app.config as config
-
-gdp_data = pd.read_csv(
-    "https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv"
-)
-
-colorscale = [
-    [0, "rgb(239, 246, 255)"],
-    [1, "rgb(94, 114, 228)"],
-]  # Light to dark from low to high values
+from dash import dcc, html
 
 
 def build_choropleth_map():
@@ -32,32 +15,6 @@ def build_choropleth_map():
                         children=[
                             dcc.Graph(
                                 id="choropleth-map",
-                                figure=go.Figure(
-                                    data=go.Choropleth(
-                                        locations=gdp_data["CODE"],
-                                        z=gdp_data["GDP (BILLIONS)"],
-                                        text=gdp_data["COUNTRY"],
-                                        colorscale=colorscale,
-                                        autocolorscale=False,
-                                        reversescale=False,
-                                        marker_line_color="grey",  # Set to 'white' to remove black border
-                                        marker_line_width=0.5,
-                                        colorbar_tickprefix="$",
-                                        colorbar_title="GDP<br>Billions US$",
-                                    ),
-                                    layout=go.Layout(
-                                        margin=dict(
-                                            l=0, r=0, t=0, b=0
-                                        ),  # Set margins to zero to use entire area
-                                        geo=dict(
-                                            showframe=False,
-                                            showcoastlines=False,
-                                            projection_type="equirectangular",
-                                        ),
-                                        plot_bgcolor="rgba(0, 0, 0, 0)",  # Set to transparent
-                                        paper_bgcolor="rgba(0, 0, 0, 0)",  # Set to transparent
-                                    ),
-                                ),
                                 style={
                                     "width": "100%",
                                     "height": "100%",

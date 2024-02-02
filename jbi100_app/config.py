@@ -1,5 +1,11 @@
+"""
+This file contains constants used in the app
+"""
+
+# List of positions
 POSITIONS = ["GK", "DF", "MF", "FW"]
 
+# List of nationalities in the dataset
 NATIONALITIES = [
     "Argentina",
     "Australia",
@@ -35,6 +41,7 @@ NATIONALITIES = [
     "Wales",
 ]
 
+# Dictionary for names of attributes in the dataset, for each position
 STATS = {
     "GK": [
         "gk_clean_sheets_pct",
@@ -70,6 +77,7 @@ STATS = {
     ],
 }
 
+# Dictionary for names of stats, for labels in the sidebar
 STATS_NAMES = {
     "GK": [
         "clean sheets pct",
@@ -104,41 +112,3 @@ STATS_NAMES = {
         "shots on target pct",
     ],
 }
-
-
-# # Not all the attributes are in the original dataset
-# GK_STATS = [
-#     "gk_clean_sheets_pct",
-#     "gk_saves_pct",
-#     "gk_pens_save_pct",
-#     "gk_passes_pct_launched",
-#     "gk_crosses_stopped_pct",
-#     "passes_pct",
-# ]
-
-# DF_STATS = [
-#     "tacles_won/tackles",
-#     "dribble_tackles_pct",
-#     "aerial_won_pct",
-#     "block_passes_per_match",
-#     "block_shots_per_match",
-#     "passes_pct",
-# ]
-
-# MF_STATS = [
-#     "Goals_assists_per_match",
-#     "sca_per_match",
-#     "dribbles_completed_pct",
-#     "tackles_won/tackles",
-#     "interceptions_per_match",
-#     "passes_pct",
-# ]
-
-# FW_STATS = [
-#     "goals_assists_per_match",
-#     "sca_per_match",
-#     "dribbles_completed_pct",
-#     "shots_on_target_pct",
-#     "tackles_interceptions_per_match",
-#     "passes_pct",
-# ]

@@ -1,14 +1,8 @@
-import random
-import re
-
-import dash
-import geopandas as gpd
-import matplotlib.pyplot as plt
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objs as go
-from dash import dash_table, dcc, html
-from dash.dependencies import Input, Output, State
+from dash import dcc, html
+from dash.dependencies import Input, Output
 
 import jbi100_app.config as config
 import jbi100_app.functions as functions
@@ -21,6 +15,7 @@ from jbi100_app.views.sidebar import build_sidebar
 from jbi100_app.views.swarm_plot import build_swarm_plot
 
 if __name__ == "__main__":
+    # Load datasets
     df_goalkeepers = pd.read_csv(
         "Data/keepers_data.csv",
         delimiter=",",
@@ -48,8 +43,9 @@ if __name__ == "__main__":
     app.layout = html.Div(
         className="m-0 font-sans text-base antialiased font-normal leading-default text-slate-500",  # bg-gray-50
         children=[
-            # Filtered Dataset
+            # Filtered Dataset Store
             dcc.Store(id="filtered-data-store", data=df_attackers.to_dict("records")),
+            # Selected Player Store
             dcc.Store(id="selected-player", data=[""]),
             # Background
             html.Div(className="absolute w-full bg-blue-500 min-h-75"),
@@ -59,19 +55,19 @@ if __name__ == "__main__":
             html.Main(
                 className="relative h-full max-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl",
                 children=[
-                    # cards
+                    # Cards
                     html.Div(
                         className="w-full px-6 py-6 mx-auto",
                         children=[
-                            # Row 1
+                            # Row 1 (player card)
                             build_player_card(),
-                            # Row 2
+                            # Row 2 (swarm plot)
                             build_swarm_plot(),
-                            # Row 3
+                            # Row 3 (parallel coordinated)
                             build_parallel_coordinates_chart(),
-                            # Row 4
+                            # Row 4 (choropleth map)
                             build_choropleth_map(),
-                            # Row 5
+                            # Row 5 (radar chart)
                             build_radar_chart(),
                         ],
                     )
@@ -82,20 +78,21 @@ if __name__ == "__main__":
 
     # __________________________________ Dataset Filtering __________________________________
 
+    """
+        The following callbacks update the sliders' limits to adapt to the selected dataset (position)
+    """
+
     # Age Slider
     @app.callback(
         Output("age-slider", "min"),
         Output("age-slider", "max"),
-        # Output("stat-1-slider", "value"),
         Input("position-dropdown", "value"),
     )
     def update_slider_age(position):
         df = DATASETS[position]
         min_value = df["age"].min()
-
         max_value = df["age"].max()
-
-        return min_value, max_value  # , [min_value, max_value]
+        return min_value, max_value
 
     @app.callback(
         Output("age-slider", "value"),
@@ -105,19 +102,16 @@ if __name__ == "__main__":
     def update_slider_age_value(min_value, max_value):
         return [min_value, max_value]
 
-    # Slider 1
+    # Slider stat 1
     @app.callback(
         Output("stat-1-slider", "min"),
         Output("stat-1-slider", "max"),
-        # Output("stat-1-slider", "value"),
         Input("position-dropdown", "value"),
     )
     def update_slider1(position):
         df = DATASETS[position]
         min_value = df[config.STATS[position][0]].min()
-
         max_value = df[config.STATS[position][0]].max()
-
         return min_value, max_value  # , [min_value, max_value]
 
     @app.callback(
@@ -128,20 +122,17 @@ if __name__ == "__main__":
     def update_slider_value1(min_value, max_value):
         return [min_value, max_value]
 
-    # Slider 2
+    # Slider stat 2
     @app.callback(
         Output("stat-2-slider", "min"),
         Output("stat-2-slider", "max"),
-        # Output("stat-1-slider", "value"),
         Input("position-dropdown", "value"),
     )
     def update_slider2(position):
         df = DATASETS[position]
         min_value = df[config.STATS[position][1]].min()
-
         max_value = df[config.STATS[position][1]].max()
-
-        return min_value, max_value  # , [min_value, max_value]
+        return min_value, max_value
 
     @app.callback(
         Output("stat-2-slider", "value"),
@@ -151,19 +142,16 @@ if __name__ == "__main__":
     def update_slider_value2(min_value, max_value):
         return [min_value, max_value]
 
-    # Slider 3
+    # Slider stat 3
     @app.callback(
         Output("stat-3-slider", "min"),
         Output("stat-3-slider", "max"),
-        # Output("stat-1-slider", "value"),
         Input("position-dropdown", "value"),
     )
     def update_slider3(position):
         df = DATASETS[position]
         min_value = df[config.STATS[position][2]].min()
-
         max_value = df[config.STATS[position][2]].max()
-
         return min_value, max_value  # , [min_value, max_value]
 
     @app.callback(
@@ -174,20 +162,17 @@ if __name__ == "__main__":
     def update_slider_value3(min_value, max_value):
         return [min_value, max_value]
 
-    # Slider 4
+    # Slider stat 4
     @app.callback(
         Output("stat-4-slider", "min"),
         Output("stat-4-slider", "max"),
-        # Output("stat-1-slider", "value"),
         Input("position-dropdown", "value"),
     )
     def update_slider4(position):
         df = DATASETS[position]
         min_value = df[config.STATS[position][3]].min()
-
         max_value = df[config.STATS[position][3]].max()
-
-        return min_value, max_value  # , [min_value, max_value]
+        return min_value, max_value
 
     @app.callback(
         Output("stat-4-slider", "value"),
@@ -201,16 +186,13 @@ if __name__ == "__main__":
     @app.callback(
         Output("stat-5-slider", "min"),
         Output("stat-5-slider", "max"),
-        # Output("stat-1-slider", "value"),
         Input("position-dropdown", "value"),
     )
     def update_slider5(position):
         df = DATASETS[position]
         min_value = df[config.STATS[position][4]].min()
-
         max_value = df[config.STATS[position][4]].max()
-
-        return min_value, max_value  # , [min_value, max_value]
+        return min_value, max_value
 
     @app.callback(
         Output("stat-5-slider", "value"),
@@ -220,20 +202,17 @@ if __name__ == "__main__":
     def update_slider_value5(min_value, max_value):
         return [min_value, max_value]
 
-    # Slider 6
+    # Slider stat 6
     @app.callback(
         Output("stat-6-slider", "min"),
         Output("stat-6-slider", "max"),
-        # Output("stat-1-slider", "value"),
         Input("position-dropdown", "value"),
     )
     def update_slider6(position):
         df = DATASETS[position]
         min_value = df[config.STATS[position][5]].min()
-
         max_value = df[config.STATS[position][5]].max()
-
-        return min_value, max_value  # , [min_value, max_value]
+        return min_value, max_value
 
     @app.callback(
         Output("stat-6-slider", "value"),
@@ -263,6 +242,9 @@ if __name__ == "__main__":
         slider_value_5,
         slider_value_6,
     ):
+        """
+        Apply all the filters imposed by the sliders
+        """
         # Position Selector
         filtered_df = DATASETS[selected_position]
 
@@ -315,11 +297,14 @@ if __name__ == "__main__":
         Input("position-dropdown", "value"),
     )
     def update_stats_names(position):
+        """
+        Change the name of the sliders in the side bar, based on current dataset (position)
+        """
         stats = config.STATS_NAMES[position]
         return stats[0], stats[1], stats[2], stats[3], stats[4], stats[5]
 
     # __________________________________ Player Card Update __________________________________
-    # The selected player makes the following parts of the card change: name, age, country, club, continent, position
+
     @app.callback(
         [
             Output("player-name", "children"),
@@ -336,10 +321,10 @@ if __name__ == "__main__":
         ],
     )
     def update_player_card(data, selected_player):
-        # Update player card values based on the dataset
-        # For example, you can fetch data from a database or another external source here
-        # For demonstration, I'm using the sample_data dictionary
-        print(f"SELECTED PLAYER: {selected_player}")
+        """
+        Update general statistics on the player card, both if there is a selected player and not
+        """
+        # No player selected, return only stats names
         if len(selected_player) == 0 or selected_player[0] == "":
             player_name = "Click on a player to select"
             player_age = "Age: "
@@ -348,12 +333,11 @@ if __name__ == "__main__":
             player_club = "Club: "
             player_position = "Position: "
             player_minutes = "Matches: "
-
         else:
             df = pd.DataFrame(data)
             df = df[df["player"] == selected_player]
 
-            # Player is filtered out
+            # Currently selected player is filtered out from the dataset, remove his information from the card
             if len(df) == 0:
                 player_name = "Click on a player to select"
                 player_age = "Age: "
@@ -362,7 +346,7 @@ if __name__ == "__main__":
                 player_club = "Club: "
                 player_position = "Position: "
                 player_minutes = "Matches: "
-            else:
+            else:  # Add Player general stats
                 player_name = "Name: " + df["player"]
                 player_age = "Age: " + str(df["age"].iloc[0])
                 player_nationality = "Nationality: " + df["team"]
@@ -390,7 +374,11 @@ if __name__ == "__main__":
         ],
     )
     def update_swarm_plot(data, selected_player):
-        # If filtered dataset is empty
+        """
+        Update the swarm plot, based on the filtered dataset and the selected player.
+        Selected player is represented with a red dot.
+        """
+        # Filtered dataset is empty, return an empty plot
         if len(data) == 0:
             fig = px.strip(
                 {
@@ -405,17 +393,12 @@ if __name__ == "__main__":
             fig = px.strip(
                 df,
                 x="overall_score",
-                # y="team",
-                # height=400,
-                # width=800,
                 stripmode="overlay",
-                # hover_data={"player":True, "position" : True},
                 hover_data={"player": True},
                 color=df["player"] == str(selected_player),
             )
-
+        # Visualize player name and overall score when hovering over dots
         hover_template = "<b>Player:</b> %{customdata[0]}<br><b>Overall Score:</b> %{x}"
-
         fig.update_traces(hovertemplate=hover_template)
 
         fig.update_layout(
@@ -437,22 +420,6 @@ if __name__ == "__main__":
             .update_traces(jitter=1)
         )
 
-        # fig.update_traces(
-        #     marker=dict(size=12, opacity=0.6), selector=dict(mode="markers")
-        # )
-
-        # def update_color(player):
-        #     if player == selected_player[0]:
-        #         return "red"  # Change color if player name matches
-        #     else:
-        #         return "black"
-
-        # for trace in fig.data:
-        #     if "hovertext" in trace:
-        #         trace.marker.color = [
-        #             update_color(player) for player in trace.hovertext[0]
-        #         ]
-
         return fig
 
     # __________________________________ Parallel Coordinates Chart Update __________________________________
@@ -465,6 +432,10 @@ if __name__ == "__main__":
         ],
     )
     def update_parallel_coordinates_chart(data, position, selected_player):
+        """
+        Update the parallel coordinates chart, based on the filtered dataset and the selected player.
+        """
+        # Filtered dataset is empty, show an empty chart
         if len(data) == 0:
             return go.Figure(
                 data=go.Parcoords(
@@ -478,21 +449,15 @@ if __name__ == "__main__":
                             label="",
                             values=[],
                         )
-                        for i in range(6)  # Iterate over indices from 0 to 5
+                        for i in range(6)  # There are 6 axes, one for each metric
                     ],
                 )
             )
         df = pd.DataFrame(data)
+
+        # Unfiltered dataset, used to find min and max values and set ranges of the axes
         original_df = DATASETS[position]
         pos = position
-
-        # def update_color(player, selected_player):
-        #     print("UPDATE COLOR")
-        #     if player == str(selected_player):
-        #         print("TRUE")
-        #         return "blue"  # Change color if player name matches
-        #     else:
-        #         return "black"
 
         default_color = 1
         # Define line colors based on player selection
@@ -508,18 +473,8 @@ if __name__ == "__main__":
             [0, "rgb(239, 246, 255)"],
             [1, "rgb(94, 114, 228)"],
         ]
-        # print(type(line_colors))
-        # line_colors = list(line_colors)
-        # print(type(line_colors))
-        # print(line_colors)
-
         figure = go.Figure(
             data=go.Parcoords(
-                # multiselect=False,
-                # line_color="blue",
-                # line=dict(
-                #     color=df["player"].apply(lambda x: update_color(x, selected_player))
-                # ),
                 line=dict(
                     color=color_values,  # This array determines the color based on the colorscale
                     colorscale=colorscale,  # Custom colorscale
@@ -534,52 +489,42 @@ if __name__ == "__main__":
                         label=config.STATS[pos][i],
                         values=df[config.STATS[pos][i]],
                     )
-                    for i in range(6)  # Iterate over indices from 0 to 5
+                    for i in range(6)  # 6 axes
                 ],
             )
         )
-        # print(figure)
-
         return figure
 
     # __________________________________ Swarm plot and parallel coordinates selection __________________________________
-
-    # figure needs "layout": {"clickmode": "event+select"},
 
     # Click on points selects player
     @app.callback(
         [Output("selected-player", "data", allow_duplicate=True)],
         [Input("swarm-plot", "clickData"), Input("selected-player", "data")],
-        # State("swarm-plot", "figure"),
-        # [State("swarm-plot", "figure"), State("parallel-coord-chart", "figure")],
         prevent_initial_call=True,
     )
     def swarm_plot_click(
         clickData,
         selected_player,
-        # strip_chart_figure,
     ):
+        """
+        Add player to selected-player Store when the user clicks on a point of the swarm plot.
+        Remove the player from the selected-player Store if the clicked player is already selected.
+        """
         if clickData is not None:
             split_sp = selected_player.split("_")
-
-            point_index = clickData["points"][0]["pointIndex"]
-            print(clickData)
-            # player = data.loc[point_index, 'Player']
-            # age = data.loc[point_index, 'Age']
-            # return f"Clicked point: Player - {player}, Age - {age}"
 
             player_name = clickData["points"][0]["customdata"][0]
 
             if len(split_sp) > 1:
                 player_name = split_sp[0]
+
             # Deselect player when click on already selected player
             if player_name == selected_player:
-                print("DESELECT")
                 return [""]
 
             return [player_name]
         else:
-            print(f"RETURNING {selected_player}")
             return [selected_player]
 
     # Click on lines of parallel coordinates selects player
@@ -597,21 +542,19 @@ if __name__ == "__main__":
         restyledata,
         data,
         position,
-        # strip_chart_figure,
     ):
+        """
+        Add player to selected-player Store when the user selects an interval on an axis of the PCP.
+        """
         if len(data) == 0:
             return [""]
         if restyledata:
             df = pd.DataFrame(data)
-            # print(restyledata)
             for key, val in restyledata[0].items():
                 dim_index = int(key.split("[")[1].split("]")[0])
-                print(dim_index)
-                print(val[0])
 
                 df = df[df[config.STATS[position][dim_index]] >= val[0][0]]
                 df = df[df[config.STATS[position][dim_index]] <= val[0][1]]
-                print(df)
 
                 return [df["player"].iloc[0] + "_change"]
 
@@ -624,6 +567,9 @@ if __name__ == "__main__":
         Input("filtered-data-store", "data"),
     )
     def update_choropleth_map(data):
+        """
+        Shoe data on the choropleth map based on the filtered dataset.
+        """
         df = pd.DataFrame(data)
 
         colorscale = [
@@ -631,6 +577,7 @@ if __name__ == "__main__":
             [1, "rgb(94, 114, 228)"],
         ]  # Light to dark from low to high values
 
+        # Filtered dataset is empty
         if len(data) == 0:
             updated_figure = go.Figure(
                 data=go.Choropleth(),
@@ -682,9 +629,8 @@ if __name__ == "__main__":
 
         return updated_figure
 
-    # ____________ Radar Chart Update ____________
+    # __________________________________ Compare Players Card Update __________________________________
 
-    # Update selectable players based on position
     @app.callback(
         [
             Output("player-compare-dropdown", "options"),
@@ -692,6 +638,9 @@ if __name__ == "__main__":
         Input("position-dropdown", "value"),
     )
     def update_compare_dropdown(position):
+        """
+        Update the list of players who can be selected based on the current dataset (position)
+        """
         df = DATASETS[position]
         player_names = list(df["player"])
         options = (
@@ -705,64 +654,27 @@ if __name__ == "__main__":
         )
         return options
 
-    # STATS_TO_USE = {
-    #     "FW": [
-    #         "goals_assists_per90",
-    #         "passes_pct",
-    #         "dribbles_completed_pct",
-    #         "shots_on_target_pct",
-    #         "overall_score",
-    #         "sca_per90",
-    #         "tackles_interceptions",
-    #     ],
-    #     "MF": [
-    #         "shots_on_target_pct",
-    #         "tackles_won_pct",
-    #         "passes_pct",
-    #         "sca_per90",
-    #         "dribbles_completed_pct",
-    #         "interceptions",
-    #         "overall_score",
-    #     ],
-    #     "DF": [
-    #         "blocked_passes",
-    #         "tackles_won_pct",
-    #         "passes_pct",
-    #         "aerials_won_pct",
-    #         "blocked_shots",
-    #         "dribble_tackles_pct",
-    #         "overall_score",
-    #     ],
-    #     "GK": [
-    #         "gk_clean_sheets_pct",
-    #         "gk_save_pct",
-    #         "gk_pens_save_pct",
-    #         "gk_passes_pct_launched",
-    #         "gk_crosses_stopped_pct",
-    #         "passes_pct",
-    #         "overall_score",
-    #     ],
-    # }
-
     @app.callback(
         Output("radar-chart", "figure"),
         [
             Input("player-compare-dropdown", "value"),
-            Input("filtered-data-store", "data"),
             Input("position-dropdown", "value"),
         ],
     )
-    def update_radar_chart(selected_players, data, position):
+    def update_radar_chart(selected_players, position):
+        """
+        Show player selected for comparison in the radar chart.
+        The radar chart is shown only if at least 2 players have been selected.
+        The attributes shown are based on the current dataset (position).
+        The values of the attributes are normalized (scale from 1 to 100) using min and max values.
+        """
+
+        # Return an empty figure or a figure with a message if less than 2 players are selected
         if not selected_players or len(selected_players) < 2:
-            # Return an empty figure or a figure with a message if less than 2 players are selected
             return go.Figure()
 
         # Convert the stored data back into a DataFrame
-        df = pd.DataFrame(data)
-
-        radar_player_options = [
-            {"label": player, "value": player} for player in df["player"].unique()
-        ]
+        df = DATASETS[position]
 
         stats_to_use = config.STATS[position]
         for stat in stats_to_use:
@@ -775,7 +687,6 @@ if __name__ == "__main__":
         for player in selected_players:
             player_data = df[df["player"] == player]
             if player_data.empty:
-                print(f"No data for player: {player}")
                 continue
             try:
                 # Attempt to create the trace and catch any errors to print them out.
@@ -788,6 +699,7 @@ if __name__ == "__main__":
                 traces.append(trace)
             except Exception as e:
                 print(f"An error occurred for player {player}: {e}")
+
         # Create the figure with the traces
         fig = go.Figure(traces)
         fig.update_layout(
@@ -803,13 +715,14 @@ if __name__ == "__main__":
 
         return fig
 
-    # __________________________________ Players selector reset __________________________________
-
     @app.callback(
         Output("player-compare-dropdown", "value"),
         Input("clear-selection-button", "n_clicks"),
     )
     def reset_player_selection(n_clicks):
+        """
+        When the Clear Selection button is clicked, remove players from the dropdown selector.
+        """
         if n_clicks is None:
             n_clicks = 0
 

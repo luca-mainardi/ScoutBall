@@ -30,6 +30,7 @@ def build_player_card():
                                             html.Div(
                                                 className="w-1/2 px-3",
                                                 children=[
+                                                    # Age
                                                     html.P(
                                                         id="player-age",
                                                         className="mb-2",
@@ -38,6 +39,7 @@ def build_player_card():
                                                             "font-weight": "bold",
                                                         },
                                                     ),
+                                                    # Nationality
                                                     html.P(
                                                         id="player-nationality",
                                                         className="mb-2",
@@ -46,6 +48,7 @@ def build_player_card():
                                                             "font-weight": "bold",
                                                         },
                                                     ),
+                                                    # Continent
                                                     html.P(
                                                         id="player-continent",
                                                         className="mb-0",
@@ -60,6 +63,7 @@ def build_player_card():
                                             html.Div(
                                                 className="w-1/2 px-3",
                                                 children=[
+                                                    # Club
                                                     html.P(
                                                         id="player-club",
                                                         className="mb-2",
@@ -68,6 +72,7 @@ def build_player_card():
                                                             "font-weight": "bold",
                                                         },
                                                     ),
+                                                    # Position
                                                     html.P(
                                                         id="player-position",
                                                         className="mb-2",
@@ -76,6 +81,7 @@ def build_player_card():
                                                             "font-weight": "bold",
                                                         },
                                                     ),
+                                                    # Matches played
                                                     html.P(
                                                         id="player-minutes",
                                                         className="mb-2",

@@ -1330,30 +1330,12 @@ h6 {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-/* Definisci un nome per il tuo font */
 @font-face {
     font-family: 'nucleo';
     src: url('fonts/nucleo.ttf') format('truetype');
-    /* Specifica altri formati del font se disponibili (woff, woff2, ecc.) */
 }
 
 @font-face {
     font-family: 'Open Sans';
     src: url('fonts/OpenSans-VariableFont_wdth\,wght.ttf') format('truetype');
-    /* Specifica altri formati del font se disponibili (woff, woff2, ecc.) */
 }
-
-/* Applica il font a tutte le componenti di testo */
-/* body {
-    font-family: 'opensans', sans-serif;
-} */

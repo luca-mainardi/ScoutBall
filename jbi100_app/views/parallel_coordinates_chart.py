@@ -1,14 +1,4 @@
-import dash
-import dash_bootstrap_components as dbc
-import geopandas as gpd
-import matplotlib.pyplot as plt
-import pandas as pd
-import plotly.express as px
-import plotly.graph_objs as go
-from dash import dash_table, dcc, html
-from dash.dependencies import Input, Output
-
-import jbi100_app.config as config
+from dash import dcc, html
 
 
 def build_parallel_coordinates_chart():
@@ -23,7 +13,6 @@ def build_parallel_coordinates_chart():
                         children=[
                             dcc.Graph(
                                 id="parallel-coord-chart",
-                                # figure=None,
                                 style={
                                     "width": "100%",
                                     "height": "100%",
