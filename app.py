@@ -492,15 +492,20 @@ if __name__ == "__main__":
         #     else:
         #         return "black"
 
-        default_color = "blue"
+        default_color = 1
         # Define line colors based on player selection
-        line_colors = df["player"].apply(
-            lambda player: default_color if player == str(selected_player) else "black"
-        )
+        color_values = []
+        color_values = df["player"].apply(
+            lambda player: default_color if player != str(selected_player) else 2
+        ).to_list()
+        colorscale = [
+            [0, "rgb(239, 246, 255)"],
+            [1, "rgb(94, 114, 228)"],
+        ] 
         # print(type(line_colors))
-        line_colors = list(line_colors)
-        print(type(line_colors))
-        print(line_colors)
+        # line_colors = list(line_colors)
+        # print(type(line_colors))
+        # print(line_colors)
 
         figure = go.Figure(
             data=go.Parcoords(
@@ -509,7 +514,11 @@ if __name__ == "__main__":
                 # line=dict(
                 #     color=df["player"].apply(lambda x: update_color(x, selected_player))
                 # ),
-                line=dict(color=line_colors),
+                line=dict(
+            color=color_values,  # This array determines the color based on the colorscale
+            colorscale=colorscale,  # Custom colorscale
+            showscale=False  # Hide the colorscale legend if it's not meaningful to the user
+        ),
                 dimensions=[
                     dict(
                         range=[
@@ -523,7 +532,7 @@ if __name__ == "__main__":
                 ],
             )
         )
-        print(figure)
+        #print(figure)
 
         return figure
 
