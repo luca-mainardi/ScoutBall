@@ -46,7 +46,7 @@ if __name__ == "__main__":
     }
 
     app.layout = html.Div(
-        className="m-0 font-sans text-base antialiased font-normal leading-default bg-gray-50 text-slate-500",
+        className="m-0 font-sans text-base antialiased font-normal leading-default text-slate-500",  # bg-gray-50
         children=[
             # Filtered Dataset
             dcc.Store(id="filtered-data-store", data=df_attackers.to_dict("records")),
@@ -315,7 +315,7 @@ if __name__ == "__main__":
         Input("position-dropdown", "value"),
     )
     def update_stats_names(position):
-        stats = config.STATS[position]
+        stats = config.STATS_NAMES[position]
         return stats[0], stats[1], stats[2], stats[3], stats[4], stats[5]
 
     # __________________________________ Player Card Update __________________________________
@@ -414,6 +414,10 @@ if __name__ == "__main__":
                 color=df["player"] == str(selected_player),
             )
 
+        hover_template = "<b>Player:</b> %{customdata[0]}<br><b>Overall Score:</b> %{x}"
+
+        fig.update_traces(hovertemplate=hover_template)
+
         fig.update_layout(
             xaxis=dict(
                 showgrid=True, gridcolor="WhiteSmoke", zerolinecolor="Gainsboro"
@@ -423,6 +427,7 @@ if __name__ == "__main__":
             ),
         )
         fig.update_layout(plot_bgcolor="white")
+        fig.update_layout(showlegend=False)
 
         fig = (
             fig

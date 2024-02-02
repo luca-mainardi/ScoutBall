@@ -33,17 +33,26 @@ def build_player_card():
                                                     html.P(
                                                         id="player-age",
                                                         className="mb-2",
-                                                        style={"font-size": "18px"},
+                                                        style={
+                                                            "font-size": "18px",
+                                                            "font-weight": "bold",
+                                                        },
                                                     ),
                                                     html.P(
                                                         id="player-nationality",
                                                         className="mb-2",
-                                                        style={"font-size": "18px"},
+                                                        style={
+                                                            "font-size": "18px",
+                                                            "font-weight": "bold",
+                                                        },
                                                     ),
                                                     html.P(
                                                         id="player-continent",
                                                         className="mb-0",
-                                                        style={"font-size": "18px"},
+                                                        style={
+                                                            "font-size": "18px",
+                                                            "font-weight": "bold",
+                                                        },
                                                     ),
                                                 ],
                                             ),
@@ -54,17 +63,26 @@ def build_player_card():
                                                     html.P(
                                                         id="player-club",
                                                         className="mb-2",
-                                                        style={"font-size": "18px"},
+                                                        style={
+                                                            "font-size": "18px",
+                                                            "font-weight": "bold",
+                                                        },
                                                     ),
                                                     html.P(
                                                         id="player-position",
                                                         className="mb-2",
-                                                        style={"font-size": "18px"},
+                                                        style={
+                                                            "font-size": "18px",
+                                                            "font-weight": "bold",
+                                                        },
                                                     ),
                                                     html.P(
                                                         id="player-minutes",
-                                                        className="mb-0",
-                                                        style={"font-size": "18px"},
+                                                        className="mb-2",
+                                                        style={
+                                                            "font-size": "18px",
+                                                            "font-weight": "bold",
+                                                        },
                                                     ),
                                                 ],
                                             ),
