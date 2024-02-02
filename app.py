@@ -11,6 +11,7 @@ from dash import dash_table, dcc, html
 from dash.dependencies import Input, Output, State
 
 import jbi100_app.config as config
+import jbi100_app.functions as functions
 from jbi100_app.main import app
 from jbi100_app.views.choropleth_map import build_choropleth_map
 from jbi100_app.views.parallel_coordinates_chart import build_parallel_coordinates_chart
@@ -342,8 +343,8 @@ if __name__ == "__main__":
         # Update player card values based on the dataset
         # For example, you can fetch data from a database or another external source here
         # For demonstration, I'm using the sample_data dictionary
-        print(selected_player)
-        if selected_player[0] == "":
+        print(f"SELECTED PLAYER: {selected_player}")
+        if len(selected_player) == 0 or selected_player[0] == "":
             player_name = "Click on a player to select"
             player_age = "Age: "
             player_nationality = "Nationality: "
@@ -356,13 +357,23 @@ if __name__ == "__main__":
             df = pd.DataFrame(data)
             df = df[df["player"] == selected_player]
 
-            player_name = "Name: " + df["player"]
-            player_age = "Age: " + str(df["age"].iloc[0])
-            player_nationality = "Nationality: " + df["team"]
-            player_continent = "Continent: " + df["team_cont"]
-            player_club = "Club: " + df["club"]
-            player_position = "Position: " + df["position"]
-            player_minutes = "Matches: " + str(df["minutes_90s"].iloc[0])
+            # Player is filtered out
+            if len(df) == 0:
+                player_name = "Click on a player to select"
+                player_age = "Age: "
+                player_nationality = "Nationality: "
+                player_continent = "Continent: "
+                player_club = "Club: "
+                player_position = "Position: "
+                player_minutes = "Matches: "
+            else:
+                player_name = "Name: " + df["player"]
+                player_age = "Age: " + str(df["age"].iloc[0])
+                player_nationality = "Nationality: " + df["team"]
+                player_continent = "Continent: " + df["team_cont"]
+                player_club = "Club: " + df["club"]
+                player_position = "Position: " + df["position"]
+                player_minutes = "Matches: " + str(df["minutes_90s"].iloc[0])
 
         return (
             player_name,
@@ -377,9 +388,12 @@ if __name__ == "__main__":
     # __________________________________ Swarm Plot Update __________________________________
     @app.callback(
         Output("swarm-plot", "figure"),
-        Input("filtered-data-store", "data"),
+        [
+            Input("filtered-data-store", "data"),
+            Input("selected-player", "data"),
+        ],
     )
-    def update_swarm_plot(data):
+    def update_swarm_plot(data, selected_player):
         # If filtered dataset is empty
         if len(data) == 0:
             fig = px.strip(
@@ -400,6 +414,7 @@ if __name__ == "__main__":
                 # width=800,
                 stripmode="overlay",
                 hover_data=["player", "position"],
+                color=df["player"] == str(selected_player),
             )
 
         fig.update_layout(
@@ -420,6 +435,22 @@ if __name__ == "__main__":
             .update_traces(jitter=1)
         )
 
+        # fig.update_traces(
+        #     marker=dict(size=12, opacity=0.6), selector=dict(mode="markers")
+        # )
+
+        # def update_color(player):
+        #     if player == selected_player[0]:
+        #         return "red"  # Change color if player name matches
+        #     else:
+        #         return "black"
+
+        # for trace in fig.data:
+        #     if "hovertext" in trace:
+        #         trace.marker.color = [
+        #             update_color(player) for player in trace.hovertext[0]
+        #         ]
+
         return fig
 
     # __________________________________ Parallel Coordinates Chart Update __________________________________
@@ -428,9 +459,10 @@ if __name__ == "__main__":
         [
             Input("filtered-data-store", "data"),
             Input("position-dropdown", "value"),
+            Input("selected-player", "data"),
         ],
     )
-    def update_parallel_coordinates_chart(data, position):
+    def update_parallel_coordinates_chart(data, position, selected_player):
         if len(data) == 0:
             return go.Figure(
                 data=go.Parcoords(
@@ -452,10 +484,32 @@ if __name__ == "__main__":
         original_df = DATASETS[position]
         pos = position
 
+        # def update_color(player, selected_player):
+        #     print("UPDATE COLOR")
+        #     if player == str(selected_player):
+        #         print("TRUE")
+        #         return "blue"  # Change color if player name matches
+        #     else:
+        #         return "black"
+
+        default_color = "blue"
+        # Define line colors based on player selection
+        line_colors = df["player"].apply(
+            lambda player: default_color if player == str(selected_player) else "black"
+        )
+        # print(type(line_colors))
+        line_colors = list(line_colors)
+        print(type(line_colors))
+        print(line_colors)
+
         figure = go.Figure(
             data=go.Parcoords(
                 # multiselect=False,
-                line_color="blue",
+                # line_color="blue",
+                # line=dict(
+                #     color=df["player"].apply(lambda x: update_color(x, selected_player))
+                # ),
+                line=dict(color=line_colors),
                 dimensions=[
                     dict(
                         range=[
@@ -469,6 +523,7 @@ if __name__ == "__main__":
                 ],
             )
         )
+        print(figure)
 
         return figure
 
@@ -479,16 +534,15 @@ if __name__ == "__main__":
     # Click on points selects player
     @app.callback(
         [Output("selected-player", "data", allow_duplicate=True)],
-        [
-            Input("swarm-plot", "clickData"),
-        ],
-        State("swarm-plot", "figure"),
+        [Input("swarm-plot", "clickData"), Input("selected-player", "data")],
+        # State("swarm-plot", "figure"),
         # [State("swarm-plot", "figure"), State("parallel-coord-chart", "figure")],
         prevent_initial_call=True,
     )
     def swarm_plot_click(
         clickData,
-        strip_chart_figure,
+        selected_player,
+        # strip_chart_figure,
     ):
         if clickData is not None:
             point_index = clickData["points"][0]["pointIndex"]
@@ -496,10 +550,19 @@ if __name__ == "__main__":
             # player = data.loc[point_index, 'Player']
             # age = data.loc[point_index, 'Age']
             # return f"Clicked point: Player - {player}, Age - {age}"
-            print(clickData["points"][0]["customdata"][0])
-            return [clickData["points"][0]["customdata"][0]]
+
+            player_name = clickData["points"][0]["customdata"][0]
+            print(player_name)
+
+            # Deselect player when click on already selected player
+            if player_name == selected_player:
+                print("DESELECT")
+                return [""]
+
+            return [player_name]
         else:
-            return ["Click on a point to view information"]
+            print(f"RETURNING {selected_player}")
+            return [selected_player]
 
     # Click on lines of parallel coordinates selects player
     @app.callback(
@@ -509,14 +572,14 @@ if __name__ == "__main__":
             Input("filtered-data-store", "data"),
             Input("position-dropdown", "value"),
         ],
-        State("parallel-coord-chart", "figure"),
+        # State("parallel-coord-chart", "figure"),
         prevent_initial_call=True,
     )
     def parallel_coordinates_selection(
         restyledata,
         data,
         position,
-        strip_chart_figure,
+        # strip_chart_figure,
     ):
         if len(data) == 0:
             return [""]
@@ -536,46 +599,6 @@ if __name__ == "__main__":
 
         return [""]
 
-    @app.callback(
-        [
-            Output("swarm-plot", "figure", allow_duplicate=True),
-            Output("parallel-coord-chart", "figure", allow_duplicate=True),
-        ],
-        [
-            Input("swarm-plot", "selectedData"),
-            Input("parallel-coord-chart", "clickData"),
-        ],
-        [State("swarm-plot", "figure"), State("parallel-coord-chart", "figure")],
-        prevent_initial_call=True,
-    )
-    def update_selection(
-        strip_selected_data,
-        parallel_click_data,
-        strip_chart_figure,
-        parallel_chart_figure,
-    ):
-        # updated_strip_figure = strip_chart_figure.copy()
-        # updated_parallel_figure = parallel_chart_figure.copy()
-
-        # if strip_selected_data:
-        #     selected_players = [
-        #         point["text"] for point in strip_selected_data["points"]
-        #     ]
-        #     updated_strip_figure["data"][0]["marker"]["size"] = [
-        #         20 if player in selected_players else 10 for player in df["Player"]
-        #     ]
-
-        # if parallel_click_data:
-        #     selected_player = parallel_click_data["points"][0]["x"]
-        #     for trace in updated_parallel_figure["data"]:
-        #         trace["line"]["width"] = [
-        #             4 if player == selected_player else 1 for player in df["Player"]
-        #         ]
-
-        # return updated_strip_figure, updated_parallel_figure
-        print(strip_selected_data)
-        pass
-
     # __________________________________ Choropleth Map Update __________________________________
 
     @app.callback(
@@ -583,7 +606,63 @@ if __name__ == "__main__":
         Input("filtered-data-store", "data"),
     )
     def update_choropleth_map(data):
-        pass
+        df = pd.DataFrame(data)
+
+        colorscale = [
+            [0, "rgb(239, 246, 255)"],
+            [1, "rgb(94, 114, 228)"],
+        ]  # Light to dark from low to high values
+
+        if len(data) == 0:
+            updated_figure = go.Figure(
+                data=go.Choropleth(),
+                layout=go.Layout(
+                    margin=dict(l=0, r=0, t=0, b=0),
+                    geo=dict(
+                        showframe=False,
+                        showcoastlines=False,
+                        projection_type="equirectangular",
+                    ),
+                    plot_bgcolor="rgba(0, 0, 0, 0)",
+                    paper_bgcolor="rgba(0, 0, 0, 0)",
+                ),
+            )
+        else:
+            country_counts = df.groupby("team").size().reset_index(name="num_players")
+
+            updated_locations = country_counts["team"].apply(functions.country_to_code)
+            updated_z = country_counts[
+                "num_players"
+            ]  # Assuming this is the new z values
+            updated_text = country_counts[
+                "team"
+            ]  # Assuming this is the new text values
+            # Update the figure
+            updated_figure = go.Figure(
+                data=go.Choropleth(
+                    locations=updated_locations,
+                    z=updated_z,
+                    text=updated_text,
+                    colorscale=colorscale,
+                    autocolorscale=False,
+                    reversescale=False,
+                    marker_line_color="grey",
+                    marker_line_width=0.5,
+                    colorbar_title="Number of players",
+                ),
+                layout=go.Layout(
+                    margin=dict(l=0, r=0, t=0, b=0),
+                    geo=dict(
+                        showframe=False,
+                        showcoastlines=False,
+                        projection_type="equirectangular",
+                    ),
+                    plot_bgcolor="rgba(0, 0, 0, 0)",
+                    paper_bgcolor="rgba(0, 0, 0, 0)",
+                ),
+            )
+
+        return updated_figure
 
     # __________________________________ Radar Chart Update __________________________________
 
