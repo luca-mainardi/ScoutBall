@@ -8,6 +8,7 @@ import plotly.graph_objs as go
 from dash import dash_table, dcc, html
 from dash.dependencies import Input, Output
 
+# from Data import midfielders_data
 import jbi100_app.config as config
 
 
@@ -83,14 +84,16 @@ def build_radar_chart():
                             dcc.Dropdown(
                                 id="player-compare-dropdown",
                                 className="mb-6",
-                                options=[
-                                    {
-                                        "label": f"player {i}",
-                                        "value": f"player {i}",
-                                    }
-                                    for i in range(100)
-                                ],
-                                value=["player 1"],  # Default selected values
+                                # options=[
+                                #     {
+                                #         "label": f"player {i}",
+                                #         "value": f"player {i}",
+                                #     }
+                                #     for i in range(100)
+                                # ],
+                                options=[],
+                                # value=["player 1"],  # Default selected values
+                                value=[],
                                 multi=True,
                                 searchable=True,  # Enable search functionality
                                 placeholder="Select players...",

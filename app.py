@@ -38,10 +38,6 @@ if __name__ == "__main__":
         delimiter=",",
     )
 
-    gdp_data = pd.read_csv(
-        "https://raw.githubusercontent.com/plotly/datasets/master/2014_world_gdp_with_codes.csv"
-    )
-
     DATASETS = {
         "GK": df_goalkeepers,
         "DF": df_defenders,
@@ -413,7 +409,8 @@ if __name__ == "__main__":
                 # height=400,
                 # width=800,
                 stripmode="overlay",
-                hover_data={"player":True, "position" : True},
+                # hover_data={"player":True, "position" : True},
+                hover_data={"player": True},
                 color=df["player"] == str(selected_player),
             )
 
@@ -495,13 +492,17 @@ if __name__ == "__main__":
         default_color = 1
         # Define line colors based on player selection
         color_values = []
-        color_values = df["player"].apply(
-            lambda player: default_color if player != str(selected_player) else 2
-        ).to_list()
+        color_values = (
+            df["player"]
+            .apply(
+                lambda player: default_color if player != str(selected_player) else 2
+            )
+            .to_list()
+        )
         colorscale = [
             [0, "rgb(239, 246, 255)"],
             [1, "rgb(94, 114, 228)"],
-        ] 
+        ]
         # print(type(line_colors))
         # line_colors = list(line_colors)
         # print(type(line_colors))
@@ -515,10 +516,10 @@ if __name__ == "__main__":
                 #     color=df["player"].apply(lambda x: update_color(x, selected_player))
                 # ),
                 line=dict(
-            color=color_values,  # This array determines the color based on the colorscale
-            colorscale=colorscale,  # Custom colorscale
-            showscale=False  # Hide the colorscale legend if it's not meaningful to the user
-        ),
+                    color=color_values,  # This array determines the color based on the colorscale
+                    colorscale=colorscale,  # Custom colorscale
+                    showscale=False,  # Hide the colorscale legend if it's not meaningful to the user
+                ),
                 dimensions=[
                     dict(
                         range=[
@@ -532,7 +533,7 @@ if __name__ == "__main__":
                 ],
             )
         )
-        #print(figure)
+        # print(figure)
 
         return figure
 
@@ -554,8 +555,7 @@ if __name__ == "__main__":
         # strip_chart_figure,
     ):
         if clickData is not None:
-            split_sp =  selected_player.split("_")
-            
+            split_sp = selected_player.split("_")
 
             point_index = clickData["points"][0]["pointIndex"]
             print(clickData)
@@ -564,7 +564,7 @@ if __name__ == "__main__":
             # return f"Clicked point: Player - {player}, Age - {age}"
 
             player_name = clickData["points"][0]["customdata"][0]
-            
+
             if len(split_sp) > 1:
                 player_name = split_sp[0]
             # Deselect player when click on already selected player
@@ -608,7 +608,7 @@ if __name__ == "__main__":
                 df = df[df[config.STATS[position][dim_index]] <= val[0][1]]
                 print(df)
 
-                return [df["player"].iloc[0] +"_change"]
+                return [df["player"].iloc[0] + "_change"]
 
         return [""]
 
@@ -677,14 +677,126 @@ if __name__ == "__main__":
 
         return updated_figure
 
-    # __________________________________ Radar Chart Update __________________________________
+    # ____________ Radar Chart Update ____________
+
+    # Update selectable players based on position
+    @app.callback(
+        [
+            Output("player-compare-dropdown", "options"),
+        ],
+        Input("position-dropdown", "value"),
+    )
+    def update_compare_dropdown(position):
+        df = DATASETS[position]
+        player_names = list(df["player"])
+        options = (
+            [
+                {
+                    "label": f"{player_names[i]}",
+                    "value": f"{player_names[i]}",
+                }
+                for i in range(len(player_names))
+            ],
+        )
+        return options
+
+    # STATS_TO_USE = {
+    #     "FW": [
+    #         "goals_assists_per90",
+    #         "passes_pct",
+    #         "dribbles_completed_pct",
+    #         "shots_on_target_pct",
+    #         "overall_score",
+    #         "sca_per90",
+    #         "tackles_interceptions",
+    #     ],
+    #     "MF": [
+    #         "shots_on_target_pct",
+    #         "tackles_won_pct",
+    #         "passes_pct",
+    #         "sca_per90",
+    #         "dribbles_completed_pct",
+    #         "interceptions",
+    #         "overall_score",
+    #     ],
+    #     "DF": [
+    #         "blocked_passes",
+    #         "tackles_won_pct",
+    #         "passes_pct",
+    #         "aerials_won_pct",
+    #         "blocked_shots",
+    #         "dribble_tackles_pct",
+    #         "overall_score",
+    #     ],
+    #     "GK": [
+    #         "gk_clean_sheets_pct",
+    #         "gk_save_pct",
+    #         "gk_pens_save_pct",
+    #         "gk_passes_pct_launched",
+    #         "gk_crosses_stopped_pct",
+    #         "passes_pct",
+    #         "overall_score",
+    #     ],
+    # }
 
     @app.callback(
         Output("radar-chart", "figure"),
-        Input("player-compare-dropdown", "value"),
+        [
+            Input("player-compare-dropdown", "value"),
+            Input("filtered-data-store", "data"),
+            Input("position-dropdown", "value"),
+        ],
     )
-    def update_radar_chart(selected_players):
-        pass
+    def update_radar_chart(selected_players, data, position):
+        if not selected_players or len(selected_players) < 2:
+            # Return an empty figure or a figure with a message if less than 2 players are selected
+            return go.Figure()
+
+        # Convert the stored data back into a DataFrame
+        df = pd.DataFrame(data)
+
+        radar_player_options = [
+            {"label": player, "value": player} for player in df["player"].unique()
+        ]
+
+        stats_to_use = config.STATS[position]
+        for stat in stats_to_use:
+            min_val = df[stat].min()
+            max_val = df[stat].max()
+            # Min-Max normalization scaled to 1-100
+            df[stat] = 1 + ((df[stat] - min_val) / (max_val - min_val)) * 99
+
+        traces = []
+        for player in selected_players:
+            player_data = df[df["player"] == player]
+            if player_data.empty:
+                print(f"No data for player: {player}")
+                continue
+            try:
+                # Attempt to create the trace and catch any errors to print them out.
+                trace = go.Scatterpolar(
+                    r=[player_data[stat].iloc[0] for stat in stats_to_use],
+                    theta=stats_to_use,
+                    fill="toself",
+                    name=player,
+                )
+                traces.append(trace)
+            except Exception as e:
+                print(f"An error occurred for player {player}: {e}")
+        # Create the figure with the traces
+        fig = go.Figure(traces)
+        fig.update_layout(
+            polar=dict(
+                radialaxis=dict(visible=True, range=[1, 100]),
+                angularaxis=dict(
+                    tickvals=list(range(len(stats_to_use))),
+                    ticktext=stats_to_use,
+                ),
+            ),
+            showlegend=True,
+        )
+
+        return fig
 
     # __________________________________ Players selector reset __________________________________
 
