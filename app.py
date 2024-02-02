@@ -413,7 +413,7 @@ if __name__ == "__main__":
                 # height=400,
                 # width=800,
                 stripmode="overlay",
-                hover_data=["player", "position"],
+                hover_data={"player":True, "position" : True},
                 color=df["player"] == str(selected_player),
             )
 
@@ -554,6 +554,9 @@ if __name__ == "__main__":
         # strip_chart_figure,
     ):
         if clickData is not None:
+            split_sp =  selected_player.split("_")
+            
+
             point_index = clickData["points"][0]["pointIndex"]
             print(clickData)
             # player = data.loc[point_index, 'Player']
@@ -561,8 +564,9 @@ if __name__ == "__main__":
             # return f"Clicked point: Player - {player}, Age - {age}"
 
             player_name = clickData["points"][0]["customdata"][0]
-            print(player_name)
-
+            
+            if len(split_sp) > 1:
+                player_name = split_sp[0]
             # Deselect player when click on already selected player
             if player_name == selected_player:
                 print("DESELECT")
@@ -604,7 +608,7 @@ if __name__ == "__main__":
                 df = df[df[config.STATS[position][dim_index]] <= val[0][1]]
                 print(df)
 
-                return [df["player"].iloc[0]]
+                return [df["player"].iloc[0] +"_change"]
 
         return [""]
 
