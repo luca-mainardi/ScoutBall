@@ -1,4 +1,5 @@
 import random
+import re
 
 import dash
 import geopandas as gpd
@@ -453,6 +454,7 @@ if __name__ == "__main__":
 
         figure = go.Figure(
             data=go.Parcoords(
+                # multiselect=False,
                 line_color="blue",
                 dimensions=[
                     dict(
@@ -503,25 +505,36 @@ if __name__ == "__main__":
     @app.callback(
         [Output("selected-player", "data", allow_duplicate=True)],
         [
-            Input("parallel-coord-chart", "selectedpoints"),
+            Input("parallel-coord-chart", "restyleData"),
+            Input("filtered-data-store", "data"),
+            Input("position-dropdown", "value"),
         ],
         State("parallel-coord-chart", "figure"),
         prevent_initial_call=True,
     )
-    def parallel_coordinates_click(
-        clickData,
+    def parallel_coordinates_selection(
+        restyledata,
+        data,
+        position,
         strip_chart_figure,
     ):
-        if clickData is not None:
-            point_index = clickData["points"][0]["pointIndex"]
-            print(clickData)
-            # player = data.loc[point_index, 'Player']
-            # age = data.loc[point_index, 'Age']
-            # return f"Clicked point: Player - {player}, Age - {age}"
-            print(clickData["points"][0]["customdata"][0])
-            return [clickData["points"][0]["customdata"][0]]
-        else:
-            return ["Click on a point to view information"]
+        if len(data) == 0:
+            return [""]
+        if restyledata:
+            df = pd.DataFrame(data)
+            # print(restyledata)
+            for key, val in restyledata[0].items():
+                dim_index = int(key.split("[")[1].split("]")[0])
+                print(dim_index)
+                print(val[0])
+
+                df = df[df[config.STATS[position][dim_index]] >= val[0][0]]
+                df = df[df[config.STATS[position][dim_index]] <= val[0][1]]
+                print(df)
+
+                return [df["player"].iloc[0]]
+
+        return [""]
 
     @app.callback(
         [
