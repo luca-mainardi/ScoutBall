@@ -729,5 +729,5 @@ if __name__ == "__main__":
         # Return an empty list to clear the selected values
         return []
 
-    app.run_server(debug=True)
-    # app.run_server(debug=False, dev_tools_ui=False)
+    # app.run_server(debug=True)
+    app.run_server(debug=False, dev_tools_ui=False)
