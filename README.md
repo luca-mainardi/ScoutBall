@@ -1,12 +1,12 @@
 # ScoutBall: World Cup Visualization Tool for Scouting
 
-<video controls>
-  <source src="../Screencast_no_audio.mp4" type="video/mp4">
-</video>
-
 
 ## Overview
 This is the project for the course Visualization (JBI100), Eindhoven University of Technology.
+
+
+https://github.com/luca-mainardi/JBI100-Final-Project/assets/96499095/613f571b-15cd-4881-b884-3ab0014644c3
+
 
 ScoutBall is a football scouting tool that integrates data analysis with visualizations, focusing on key performance parameters of both players on the pitch and goalkeepers. Developed with a primary emphasis on visualization, ScoutBall provides insights into defensive and offensive contributions, allowing scouts to identify well-rounded players and conduct detailed comparative analyses.
 
