@@ -22,7 +22,7 @@ ScoutBall is a football scouting tool that integrates data analysis with visuali
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone https://github.com/luca-mainardi/JBI100-Final-Project.git
+   git clone https://github.com/luca-mainardi/ScoutBall.git
    ```
 2. Install dependencies:
    ```bash
